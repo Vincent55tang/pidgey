@@ -130,7 +130,6 @@ dependencies {
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile 'com.google.firebase:firebase-core:9.6.1'
-    compile project(':react-native-firestack')
     compile(project(":react-native-google-signin")){
     exclude group: "com.google.android.gms" // very important
     }

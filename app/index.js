@@ -12,7 +12,7 @@ const firebase = require('firebase');
 require('firebase/auth');
 require('firebase/database');
 
-firebase.initializeApp(require('./cloud/firebase.json'));
+const app = firebase.initializeApp(require('./cloud/firebase.json'));
 
 const styles = require('./assets/styles.js');
 
@@ -20,16 +20,21 @@ export default class Pidgey extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            googleUser: null,
-            firebaseUser: null
+            user: null
         };
     }
 
     render() {
-        if (!this.state.googleUser && !this.state.firebaseUser) {
+        if (this.state.user == null) {
           return (
             <View style={styles.container}>
               <GoogleSigninButton style={{width: 250, height: 44}} color={GoogleSigninButton.Color.Light} size={GoogleSigninButton.Size.Icon} onPress={() => { this._signIn(); }}/>
+              <TouchableOpacity onPress={() => {this._signOut(); }}>
+                <View style={{marginTop: 50}}>
+                  <Text>Log out</Text>
+                </View>
+              </TouchableOpacity>
+
             </View>
           );
         }
@@ -37,8 +42,8 @@ export default class Pidgey extends Component {
         else {
           return (
             <View style={styles.container}>
-              <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 20}}>Welcome {this.state.googleUser.name}</Text>
-              <Text>Your email is: {this.state.googleUser.email}</Text>
+              <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 20}}>Welcome {this.state.user.displayName}</Text>
+              <Text>Your email is: {this.state.user.email}</Text>
 
               <TouchableOpacity onPress={() => {this._signOut(); }}>
                 <View style={{marginTop: 50}}>
@@ -65,12 +70,9 @@ export default class Pidgey extends Component {
             console.log(user);
             this.setState({googleUser: user});
 
-            firebase.auth().onAuthStateChanged(function(user) {
-                if(user) {
-                    console.log('Current Firebase User Async', user);
-                    this.setState({firebaseUser: user});
-                }
-            })
+            firebase.auth().onAuthStateChanged(user =>
+                this.setState({user:user})
+            );
         } catch(err) {
             console.log("Play Services Error!", err.code, err.message);
         }
@@ -82,17 +84,18 @@ export default class Pidgey extends Component {
                 console.log("_signIn", user);
                 this.setState({googleUser: user});
                 const credential = firebase.auth.GoogleAuthProvider.credential(user.idToken);
-                firebase.auth().signInWithCredential(credential)
-                    .catch(function(error) {
-                        console.log("_firebaseSignIn", error);
-                    });
-            }).done();
+                return firebase.auth().signInWithCredential(credential);
+            }).then(credentials => {
+                console.log("credentails",credentials);
+                this.setState({user:credentials});
+            })
+
+            .done();
     }
 
     _signOut() {
         GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-            this.setState({googleUser: null});
-            this.setState({firebaseUser: null});
+            this.setState({user:null});
             firebase.auth().signOut().then(function() {
             }, function(error) {
                 console.log('_signOut', error);

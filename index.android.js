@@ -1,9 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React, { AppRegistry } from 'react-native';
+import Pidgey from './app';
 
+<<<<<<< HEAD
 import Map from './app/components/Map.js';
 import React, { Component } from 'react';
 import {
@@ -22,3 +20,6 @@ class pidgey extends Component {
 }
 
 AppRegistry.registerComponent('pidgey', () => pidgey);
+=======
+AppRegistry.registerComponent('pidgey', () => Pidgey);
+>>>>>>> master

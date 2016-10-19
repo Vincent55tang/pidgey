@@ -1,7 +1,3 @@
-# CONFIG
-app/cloud/*
-android/app/google-services.json
-
 # OSX
 #
 .DS_Store

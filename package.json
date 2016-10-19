@@ -6,11 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "firebase": "^3.4.1",
     "react": "15.3.1",
     "react-native": "0.33.0",
-    "react-native-maps": "^0.8.2",
-    "react-native-firestack": "^2.3.0",
-    "react-native-google-signin": "^0.8.1"
+    "react-native-maps": "^0.8.2"
   }
 }

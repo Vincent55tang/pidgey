@@ -2,6 +2,9 @@ var Navigator = require('Navigator');
 var React = require('React');
 var MapView = require('react-native-maps');
 
+var View = require('View');
+var Text = require('Text');
+
 import type { TaskList } from '../../reducers/tasks';
 
 type Props = {
@@ -36,14 +39,9 @@ class TaskMapView extends React.Component {
 
     render() {
         return (
-            <MapView
-                initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
-            />
+            <View>
+                <Text>MapView</Text>
+            </View>
         );
     }
 }

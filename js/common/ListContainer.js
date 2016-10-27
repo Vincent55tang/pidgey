@@ -73,11 +73,6 @@ class ListContainer extends React.Component {
 
     render() {
         var leftItem = this.props.leftItem;
-        leftItem = {
-            title: 'Menu',
-            icon: require('./img/hamburger.png'),
-            onPress: this.handleShowMenu,
-        };
 
         if (!leftItem) {
             leftItem = {
@@ -111,15 +106,6 @@ class ListContainer extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.headerWrapper}>
-                <ParallaxBackground
-                    minHeight={PidgeyHeader.height}
-                    maxHeight={EMPTY_CELL_HEIGHT + PidgeyHeader.height}
-                    offset={this.state.anim}
-                    backgroundImage={this.props.backgroundImage}
-                    backgroundShift={backgroundShift}
-                    backgroundColor={this.props.backgroundColor}>
-                    {this.renderParallaxContent()}
-                </ParallaxBackground>
                 <PidgeyHeader
                     title={this.props.title}
                     leftItem = {leftItem}

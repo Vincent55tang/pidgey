@@ -11,6 +11,6 @@ module.exports = {
 
     toggleTasks: (taskView : 'map' | 'list'): Action => ({
         type: 'TOGGLE_TASKS',
-        day,
+        taskView,
     }),
 };

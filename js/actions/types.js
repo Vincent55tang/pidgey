@@ -3,7 +3,8 @@
 export type Action =
     { type: 'TOGGLE_TASKS', taskView: 'list' | 'map' }
   | { type: 'SWITCH_TAB', tab: 'info' | 'tasks' }
-  | { type: 'LOGIN_REQUEST'}
+  | { type: 'SIGN_IN_SUCCESS', data: { id: string; name: string; email: string; photo:string; token: string}}
+  | { type: 'SIGN_OUT'}
   ;
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;

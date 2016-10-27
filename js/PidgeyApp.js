@@ -8,10 +8,14 @@ var React = require('React');
 var AppState = require('AppState'); // can tell you if the app is in the foreground or background, and notify you when the state changes
 var StyleSheet = require('StyleSheet');
 
-// var LoginScreen = require('./login/LoginScreen');
+var PidgeyLogin = require('PidgeyLogin');
 var PidgeyNavigator = require('PidgeyNavigator');
 var View = require('View');
 var StatusBar = require('StatusBar');
+
+import * as firebase from 'firebase';
+import { GoogleSignin } from 'react-native-google-signin';
+const firebaseApp = firebase.initializeApp(require('./config/firebase.json'));
 
 // var {
 //
@@ -22,6 +26,13 @@ var { connect } = require('react-redux');
 var PidgeyApp = React.createClass({
     conponentDidMount: function() {
         AppState.addEventListener('change', this.handleAppStateChange);
+        GoogleSignin.hasPlayServices({ autoResolve: true })
+        .then(() => {
+            GoogleSignin.configure({
+                webClientId: "146428656887-u92vmu6i2oftroo07pclis31mt3uqmbs.apps.googleusercontent.com",
+                scopes: ['https://www.googleapis.com/auth/plus.login']
+            });
+        });
 
         // DISPATCH ALL THE ACTIONS
     },
@@ -37,9 +48,9 @@ var PidgeyApp = React.createClass({
     },
 
     render: function() {
-        // if (!this.props.isLoggedIn) {
-        //     return <LoginScreen />
-        // }
+        if (!this.props.isLoggedIn) {
+            return <PidgeyLogin />
+        }
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -61,7 +72,7 @@ var styles = StyleSheet.create({
 
 function select(store) {
     return {
-        //isLoggedIn: store.user.isLoggedIn || store.user.hasSkippedLogin,
+        isLoggedIn: store.user.isLoggedIn,
     };
 }
 

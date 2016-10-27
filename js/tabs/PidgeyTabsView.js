@@ -21,8 +21,8 @@ var { Text } = require('PidgeyText');
 var MenuItem = require('./MenuItem');
 
 // TODO
-// var LogoutButton = require('../common/LogoutButton');
-// var ProfilePicture = require('../common/ProfilePicture');
+var LogoutButton = require('../common/LogoutButton');
+var ProfilePicture = require('../common/ProfilePicture');
 
 // var { logOutWithPrompt } = require('../actions');
 var { switchTab } = require('../actions');
@@ -63,19 +63,25 @@ class PidgeyTabsView extends React.Component {
 
     renderNavigationView() {
         var accountItem
-        // if (this.props.user.isLoggedIn) {
-        //     var name = this.props.user.name || '';
-        //     accountItem = (
-        //         <View>
-        //             <TouchableOpacity onPress={}> // WHEN CLICKING NAME DO this
-        //                 <ProfilePicture userId={this.props.user.id} size={80} />
-        //             </TouchableOpacity>
-        //             <Text style={styles.name}>
-        //                 {name}
-        //             </Text>
-        //         </View>
-        //     );
-        // } else {
+        var logoutItem
+        if (this.props.user.isLoggedIn) {
+            var name = this.props.user.name || '';
+            accountItem = (
+                <View>
+                    <TouchableOpacity>
+                        <ProfilePicture photo={this.props.user.photo} size={60} />
+                    </TouchableOpacity>
+                    <Text style={styles.name}>
+                        Welcome {name}!
+                    </Text>
+                </View>
+            );
+            logoutItem = (
+                 <View style={styles.loginPrompt}>
+                     <LogoutButton source="Drawer" />
+                 </View>
+            );
+        } else {
             accountItem = (
                 <View>
                     <Image source={require('./img/logo.png')} />
@@ -84,14 +90,7 @@ class PidgeyTabsView extends React.Component {
                     </Text>
                 </View>
             );
-            // loginItem = (
-            //     <View style={styles.loginPrompt}>
-            //         <Text style={styles.loginText}>
-            //             Log in With Google!
-            //         </Text>
-            //         <LoginButton source="Drawer" />
-            //     </View>
-            // );
+        }
             return (
                 <View style={styles.drawer}>
                     <Image
@@ -113,10 +112,9 @@ class PidgeyTabsView extends React.Component {
                         icon={require('./icons/info-icon.png')}
                         selectedIcon={require('./icons/info-icon-active.png')}
                     />
-
+                    {logoutItem}
                 </View>
             );
-        //}
     }
 
     renderContent() {
@@ -165,7 +163,7 @@ function select(store) {
         tab: store.navigation.tab,
         taskView: store.navigation.taskView,
         // TODO: ADD WHEN USER IS IMPL
-        // user: store.user
+        user: store.user
     };
 }
 
@@ -191,7 +189,7 @@ var styles = StyleSheet.create({
     name: {
         marginTop: 10,
         color: 'white',
-        fontSize: 12,
+        fontSize: 14,
     },
     loginPrompt: {
         flex: 1,

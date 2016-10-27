@@ -8,7 +8,6 @@ var React = require('React');
 var Platform = require('Platform');
 var BackAndroid = require('BackAndroid');
 var PidgeyTabsView = require('PidgeyTabsView');
-//var LoginModal = require('./login/LoginModal');
 var Navigator = require('Navigator');
 var StyleSheet = require('StyleSheet');
 var { connect } = require('react-redux');
@@ -75,14 +74,6 @@ var PidgeyNavigator = React.createClass({
     },
 
     renderScene: function(route, navigator) {
-        // if (route.login) {
-        //     return (
-        //         <LoginModal
-        //             navigator={navigator}
-        //             onLogin={route.callback}
-        //         />
-        //     );
-        // }
         return <PidgeyTabsView navigator={navigator} />;
     },
 });
@@ -102,7 +93,7 @@ var styles = StyleSheet.create({
 function select(store) {
     return {
         tab: store.navigation.tab,
-    // TODO:    isLoggedIn: store.user.isLoggedIn || store.user.hasSkippedLogin,
+        isLoggedIn: store.user.isLoggedIn,
     };
 }
 

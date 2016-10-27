@@ -1,4 +1,6 @@
-import React, { AppRegistry } from 'react-native';
-import Pidgey from './app';
+'use strict';
 
-AppRegistry.registerComponent('pidgey', () => Pidgey);
+const { AppRegistry } = require('react-native');
+const setup = require('./js/setup');
+
+AppRegistry.registerComponent('Pidgey', setup);

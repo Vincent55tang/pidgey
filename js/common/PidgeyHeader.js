@@ -75,24 +75,16 @@ class PidgeyHeader extends React.Component {
         }
 
         return (
-                // <ToolbarAndroid
-                //     navIcon={leftItem && leftItem.icon}
-                //     onIconClicked={leftItem && leftItem.onPress}
-                //     actions = {actions}
-                //     onActionSelected = {this.handleActionSelected.bind(this)}
-                //     style={styles.toolbar}>
-                //     {content}
-                //     <Text style={styles.titleText}>{this.props.title}</Text>
-                // </ToolbarAndroid>
             <View style={[styles.toolbarContainer, this.props.style]}>
-                <View style={styles.toolbar}>
-                    <TouchableOpacity>
-                        <Text style={styles.titleText}>
-                            {this.props.title}
-                        </Text>
-                    </TouchableOpacity>
-                    {content}
-                </View>
+            <ToolbarAndroid
+                navIcon={leftItem && leftItem.icon}
+                onIconClicked={leftItem && leftItem.onPress}
+                actions = {actions}
+                onActionSelected = {this.handleActionSelected.bind(this)}
+                style={styles.toolbar}>
+                {content}
+                <Text style={styles.titleText}>{this.props.title}</Text>
+            </ToolbarAndroid>
             </View>
         );
     }

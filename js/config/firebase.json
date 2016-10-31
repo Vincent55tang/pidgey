@@ -1,0 +1,8 @@
+// Initialize Firebase THIS IS THE WEB API, not the ANDROID API
+{
+    apiKey: "AIzaSyDNRUSy_K0SUGqaXNWXneAUKUSwVwHA88c",
+    authDomain: "pidgey-20201.firebaseapp.com",
+    databaseURL: "https://pidgey-20201.firebaseio.com",
+    storageBucket: "pidgey-20201.appspot.com",
+    messagingSenderId: "146428656887"
+}

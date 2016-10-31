@@ -38,6 +38,9 @@ local.properties
 node_modules/
 npm-debug.log
 
+# node modules I modified because ui is important to me
+!node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete.js
+
 # BUCK
 buck-out/
 \.buckd/

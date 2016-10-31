@@ -43,7 +43,6 @@ var PidgeyApp = React.createClass({
 
     handleAppStateChange: function(appState) {
         if (appState === 'active') {
-            // DO STUFF
         }
     },
 

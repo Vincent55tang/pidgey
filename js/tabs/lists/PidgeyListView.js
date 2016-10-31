@@ -11,7 +11,8 @@ var PidgeyDrawerLayout = require('PidgeyDrawerLayout');
 var { connect } = require('react-redux');
 var { toggleTasks } = require('../../actions');
 
-var TaskListView = require('./TaskListView');
+var TaskView = require('./TaskView');
+var MyListsView = require('./MyListsView');
 var TaskMapView = require('./TaskMapView');
 
 var { createSelector } = require('reselect');
@@ -42,8 +43,13 @@ class PidgeyListView extends React.Component {
     }
 
     render() {
-
-
+        const taskView = (
+            <TaskView
+                taskView = "task"
+                taskList = {this.props.taskList}
+                navigator={this.props.navigator}
+            />
+        )
         const content = (
             <ListContainer
                 title="Tasks"
@@ -51,17 +57,9 @@ class PidgeyListView extends React.Component {
                 onViewChange={this.toggleTasks}
                 backgroundColor="white"
                 selectedSectionColor="#51CDDA">
-                <TaskListView
-                    taskView = "task"
-                    taskList = {this.props.taskList}
-                    navigator={this.props.navigator}
-                />
-                <TaskMapView
-                    title="Map"
-                    taskView="map"
-                    taskList={this.props.taskList}
-                    navigator={this.props.navigator}
-                />
+
+                <MyListsView />
+
             </ListContainer>
         );
 

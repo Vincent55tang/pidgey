@@ -57,8 +57,8 @@ class PidgeyButton extends React.Component {
     if (this.props.type === 'primary') {
       content = (
         <LinearGradient
-          start={[0.5, 1]} end={[1, 1]}
-          colors={['#6A6AD5', '#6F86D9']}
+          start={[0, 0]} end={[1, 1]}
+          colors={[PidgeyColors.gradientDark, PidgeyColors.gradientLight]}
           style={[styles.button, styles.primaryButton]}>
           {icon}
           <Text style={[styles.caption, styles.primaryCaption]}>
@@ -81,7 +81,7 @@ class PidgeyButton extends React.Component {
       <TouchableOpacity
         accessibilityTraits="button"
         onPress={this.props.onPress}
-        activeOpacity={0.8}
+        activeOpacity={0.5}
         style={[styles.container, this.props.style]}>
         {content}
       </TouchableOpacity>

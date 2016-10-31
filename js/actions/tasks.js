@@ -1,26 +1,17 @@
 'use strict';
-import firebase from 'firebase';
-import type { Action } from './types';
+import type { Task } from '../reducers/tasks';
 
-export function createTask(task) {
-    return dispatch => {
-        taskList.push({
-            task,
-            completed: false
-        }).catch(error => dispatch(createTaskError(error)));
-    }
-}
+import {
+    Action
+} from './types'
 
-export function createTaskError(error) {
-    return {
-        type: CREATE_TASK_ERROR,
-        payload: error
-    };
-}
-
-export function createTaskSuccess(task) {
-    return {
-        type: CREATE_TASK_SUCCESS,
-        payload: task
+function updateTask(task: Task, changes): ThunkAction {
+    console.log("ACTIONS: updateTask");
+    return (dispatch) => {
+        return dispatch({
+            type: 'UPDATE_TASK',
+            task: task,
+            isOpen: false,
+        });
     }
 }

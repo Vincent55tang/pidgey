@@ -5,6 +5,9 @@ export type Action =
   | { type: 'SWITCH_TAB', tab: 'info' | 'tasks' }
   | { type: 'SIGN_IN_SUCCESS', data: { id: string; name: string; email: string; photo:string; token: string}}
   | { type: 'SIGN_OUT'}
+  | { type: 'OPEN_TASK_MODAL'}
+  | { type: 'CLOSE_TASK_MODAL' }
+  | { type: 'UPDATE_TASK' }
   ;
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;

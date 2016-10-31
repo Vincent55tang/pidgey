@@ -20,11 +20,9 @@ var Image = require('Image');
 var { Text } = require('PidgeyText');
 var MenuItem = require('./MenuItem');
 
-// TODO
 var LogoutButton = require('../common/LogoutButton');
 var ProfilePicture = require('../common/ProfilePicture');
 
-// var { logOutWithPrompt } = require('../actions');
 var { switchTab } = require('../actions');
 var { connect } = require('react-redux');
 
@@ -162,7 +160,6 @@ function select(store) {
     return {
         tab: store.navigation.tab,
         taskView: store.navigation.taskView,
-        // TODO: ADD WHEN USER IS IMPL
         user: store.user
     };
 }
@@ -170,7 +167,6 @@ function select(store) {
 function actions(dispatch) {
     return {
         onTabSelect: (tab) => dispatch(switchTab(tab))
-        // logOut: () => dispatch(logOutWithPrompt()),
     };
 }
 

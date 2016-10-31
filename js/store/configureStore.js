@@ -23,7 +23,7 @@ var createPidgeyStore = applyMiddleware(thunk, promise, array, analytics, logger
 
 function configureStore(onComplete: ?() => void) {
     const store = autoRehydrate()(createPidgeyStore)(reducers);
-    persistStore(store, { storage: AsyncStorage }, onComplete);
+    persistStore(store, { storage: AsyncStorage, blacklist: ['modal'] }, onComplete);
 
     return store;
 }

@@ -17,6 +17,12 @@ function PidgeyInfoView() {
             backgroundImage={require('./img/info-background.png')}
             backgroundColor={'#47BFBF'}>
                 <View style={styles.container}>
+                    <Text>Test</Text>
+                    <Text>Test</Text>
+                    <Text>Test</Text>
+                    <Text>Test</Text>
+                    <Text>Test</Text>
+                    <Text>Test</Text>
                     <MapView
                         initialRegion={{
                             latitude: 37.78825,

@@ -9,7 +9,7 @@
   "dependencies": {
     "firebase": "^3.5.2",
     "react": "15.3.2",
-    "react-native": "0.35.0",
+    "react-native": "0.36.0",
     "react-native-google-places-autocomplete": "^1.2.6",
     "react-native-google-signin": "^0.8.1",
     "react-native-linear-gradient": "^1.5.13",

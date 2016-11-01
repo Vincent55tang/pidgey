@@ -2,7 +2,8 @@
 
 var Navigator = require('Navigator');
 var React = require('React');
-var ScrollView = require('ListView');
+var ScrollView = require('ScrollView');
+var ListView = require('ListView');
 var PidgeyListCell = require('./PidgeyListCell')
 
 import { View, Text, StyleSheet } from 'react-native';

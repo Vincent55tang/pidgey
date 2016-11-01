@@ -66,12 +66,13 @@ class TaskView extends React.Component {
               //renderHeader={this.renderHeader}
             >
              </ListView>
+
+             <PidgeyTaskModal/>
              <PidgeyButton
                  style={styles.addButton}
                  caption="+"
                  onPress={()=>null}
              />
-             <PidgeyTaskModal/>
             </View>
 
 

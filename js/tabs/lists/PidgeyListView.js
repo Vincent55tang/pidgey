@@ -43,13 +43,6 @@ class PidgeyListView extends React.Component {
     }
 
     render() {
-        const taskView = (
-            <TaskView
-                taskView = "task"
-                taskList = {this.props.taskList}
-                navigator={this.props.navigator}
-            />
-        )
         const content = (
             <ListContainer
                 title="Tasks"
@@ -57,9 +50,11 @@ class PidgeyListView extends React.Component {
                 onViewChange={this.toggleTasks}
                 backgroundColor="white"
                 selectedSectionColor="#51CDDA">
-
-                <MyListsView />
-
+                <TaskView
+                    taskView = "task"
+                    taskList = {this.props.taskList}
+                    navigator={this.props.navigator}
+                />
             </ListContainer>
         );
 

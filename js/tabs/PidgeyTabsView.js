@@ -11,6 +11,7 @@ var PidgeyInfoView = require('PidgeyInfoView');
 var PidgeyListView = require('PidgeyListView');
 var PidgeyColors = require('PidgeyColors');
 var MyListsView = require('./lists/MyListsView');
+var TaskMapView = require('./lists/TaskMapView')
 var React = require('React');
 var Navigator = require('Navigator');
 var PidgeyDrawerLayout = require('PidgeyDrawerLayout');
@@ -116,6 +117,11 @@ class PidgeyTabsView extends React.Component {
                         selected={this.props.tab === 'myLists'}
                         onPress={this.onTabSelect.bind(this, 'myLists')}
                     />
+                    <MenuItem
+                        title="Map"
+                        selected={this.props.tab === 'map'}
+                        onPress={this.onTabSelect.bind(this, 'map')}
+                    />
                     {logoutItem}
                 </View>
             );
@@ -131,6 +137,8 @@ class PidgeyTabsView extends React.Component {
                 return <PidgeyListView navigator={this.props.navigator} />;
             case 'myLists':
                 return <MyListsView navigator={this.props.navigator} />;
+            case 'map':
+                return <TaskMapView navigator={this.props.navigator} />;
             default:
                 return <PidgeyInfoView navigator={this.props.navigator} />;
         }

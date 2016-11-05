@@ -9,6 +9,7 @@ var Text = require('Text');
 var TextInput = require('TextInput');
 var PidgeyColors = require('PidgeyColors');
 var PidgeyButton = require('PidgeyButton');
+var Dimensions = require('Dimensions');
 import { GooglePlacesAutocomplete } from '../../common/GooglePlacesAutocomplete';
 
 var { connect } = require('react-redux');
@@ -107,7 +108,8 @@ class PidgeyTaskModal extends React.Component {
                 animationType={"fade"}
                 transparent={true}
                 visible={this.props.isOpen}
-                onRequestClose={() => {alert("Modal Has Been Closed")}}
+                onRequestClose={() => {this.closeModal();}}
+                style={styles.container}
             >
                 <View style={styles.container}>
                     <View style={styles.edit}>
@@ -185,11 +187,14 @@ class PidgeyTaskModal extends React.Component {
     }
 }
 
+const height = Dimensions.get('window').height * 0.9;
+
 var styles = StyleSheet.create({
     container:{
-        flex:1,
+        flex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
-        padding: 25
+        padding: 25,
+        minHeight: height,
     },
     edit: {
         backgroundColor: '#fff',

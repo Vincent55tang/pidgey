@@ -52,10 +52,10 @@ class MyListsView extends React.Component {
         return (
             <View style={styles.container}>
                 <ScrollView
-                    contentContainerStyle={styles.cellList}
+                    horizontal={true}
                     dataSource={this.state.dataSource}
                     renderRow={(rowData) => this.renderRow(rowData)}
-                    //renderHeader={this.renderHeader}
+                    alwaysBounceHorizontal={true}
                     >
                 </ScrollView>
             </View>

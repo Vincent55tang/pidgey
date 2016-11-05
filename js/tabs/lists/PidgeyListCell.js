@@ -66,7 +66,8 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         flex: 2,
-        minWidth: 150,
+        minWidth: 300,
+        minHeight: 300,
         margin: 5,
     },
     titleText: {

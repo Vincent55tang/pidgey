@@ -59,28 +59,21 @@ class TaskView extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-            <ListView
+                <ListView
 
-              dataSource={this.state.dataSource}
-              renderRow={(rowData) => this.renderRow(rowData)}
-              //renderHeader={this.renderHeader}
-            >
-             </ListView>
+                  dataSource={this.state.dataSource}
+                  renderRow={(rowData) => this.renderRow(rowData)}
+                >
+                </ListView>
+                <PidgeyButton
+                    style={styles.addButton}
+                    caption="+"
+                    onPress={()=>null}
+                />
 
-             <PidgeyTaskModal/>
-             <PidgeyButton
-                 style={styles.addButton}
-                 caption="+"
-                 onPress={()=>null}
-             />
+                            <PidgeyTaskModal/>
             </View>
-
-
         );
-    }
-
-    renderHeader() {
-        return;
     }
 
     renderList(): ?ReactElement {

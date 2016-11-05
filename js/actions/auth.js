@@ -9,7 +9,7 @@ import {
 async function _signInWithGoogleFirebase(): Promise<Array<Action>> {
     const hello = await GoogleSignin.hasPlayServices({ autoResolve: true });
 
-    await GoogleSignin.configure({
+    const configure = await GoogleSignin.configure({
         webClientId: "146428656887-u92vmu6i2oftroo07pclis31mt3uqmbs.apps.googleusercontent.com",
         scopes: ['https://www.googleapis.com/auth/plus.login']
     });
@@ -56,7 +56,7 @@ function signOut(): ThunkAction {
     console.log('auth.signOut')
     return (dispatch) => {
         GoogleSignin.signOut();
-        firebase.auth().signOut();
+        firebase.auth().signOut()
 
         return dispatch({
             type: 'SIGN_OUT'

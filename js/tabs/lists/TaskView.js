@@ -71,7 +71,7 @@ class TaskView extends React.Component {
                     onPress={()=>null}
                 />
 
-                            <PidgeyTaskModal/>
+                <PidgeyTaskModal/>
             </View>
         );
     }

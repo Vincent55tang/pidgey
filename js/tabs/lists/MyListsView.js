@@ -54,6 +54,7 @@ class MyListsView extends React.Component {
                         horizontal={true}
                         snapToInterval={width*0.8}
                         snapToAlignment={"start"}
+                        alwaysBounceHorizontal={true}
                         //renderHeader={this.renderHeader}
                     >
                         <Text style={styles.scrollViewItem}>HELLO </Text>

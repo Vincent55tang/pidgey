@@ -13,7 +13,7 @@ import { View, Text, StyleSheet } from 'react-native';
 function PidgeyInfoView() {
     return (
         <ListContainer
-            title="Information"
+            title="TEST PAGE"
             backgroundImage={require('./img/info-background.png')}
             backgroundColor={'#47BFBF'}>
                 <View style={styles.container}>

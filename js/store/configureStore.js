@@ -22,7 +22,7 @@ var logger = createLogger({
 var createPidgeyStore = applyMiddleware(thunk, promise, array, analytics, logger)(createStore);
 
 function configureStore(onComplete: ?() => void) {
-    const store = autoRehydrate()(createPidgeyStore)(reducers);
+    const store = autoRehydrate()(createPidgeyStore)(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
     persistStore(store, { storage: AsyncStorage, blacklist: ['modal'] }, onComplete);
 
     return store;

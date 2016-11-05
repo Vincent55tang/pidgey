@@ -13,9 +13,8 @@ var PidgeyNavigator = require('PidgeyNavigator');
 var View = require('View');
 var StatusBar = require('StatusBar');
 
-import * as firebase from 'firebase';
+import {firebaseApp} from 'firebase';
 import { GoogleSignin } from 'react-native-google-signin';
-const firebaseApp = firebase.initializeApp(require('./config/firebase.json'));
 
 // var {
 //
@@ -27,13 +26,12 @@ var PidgeyApp = React.createClass({
     conponentDidMount: function() {
         AppState.addEventListener('change', this.handleAppStateChange);
         GoogleSignin.hasPlayServices({ autoResolve: true })
-        .then(() => {
+            .then(() => {
             GoogleSignin.configure({
                 webClientId: "146428656887-u92vmu6i2oftroo07pclis31mt3uqmbs.apps.googleusercontent.com",
                 scopes: ['https://www.googleapis.com/auth/plus.login']
             });
         });
-
         // DISPATCH ALL THE ACTIONS
     },
 

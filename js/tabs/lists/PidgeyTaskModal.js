@@ -192,7 +192,7 @@ const height = Dimensions.get('window').height * 0.9;
 var styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: PidgeyColors.modalDark,
         padding: 25,
         minHeight: height,
     },

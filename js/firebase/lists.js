@@ -2,7 +2,7 @@ var {firebaseDB} = require('../firebase');
 
 export function createList(userID, title) {
     console.log("_LISTS", userID, title);
-    var userRef = '/users/' + userID + '/lists/'
+    var userRef = '/users/' + userID + '/lists/';
 
     var newListRef = firebaseDB.ref().child(userRef).push().key;
 
@@ -19,6 +19,13 @@ export function deleteList(userID, listID) {
     var listRef = '/users/' + userID + '/lists/' + 'listID';
 
     return firebaseDB.ref(listRef).remove();
+}
+
+export function updateList(userID, listID) {
+    console.log("_LISTS", userID, listID);
+    var ref = '/users/' + userID + '/lists/' + listID;
+
+
 }
 
 // USE THIS IF YOU WANNA WATCH

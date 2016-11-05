@@ -92,6 +92,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
+    lintOptions {
+      abortOnError false
+    }
     defaultConfig {
         applicationId "com.pidgey"
         minSdkVersion 16

@@ -8,7 +8,8 @@ var React = require('React');
 var ListContainer = require('ListContainer');
 var PureListView = require('../../common/PureListView');
 var MapView = require('react-native-maps');
-import { View, Text, StyleSheet } from 'react-native';
+var TSPButton = require('../../common/TSPButton')
+import { View, Text, StyleSheet, NativeModules } from 'react-native';
 
 function PidgeyInfoView() {
     return (
@@ -44,6 +45,7 @@ function PidgeyInfoView() {
                         <Text>HELLO</Text>
                     </View>
                 </View>
+                <TSPButton source="Drawer" />
         </ListContainer>
     )
 }

@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '../firebase/';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 import {

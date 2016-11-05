@@ -13,9 +13,8 @@ var PidgeyNavigator = require('PidgeyNavigator');
 var View = require('View');
 var StatusBar = require('StatusBar');
 
-import * as firebase from 'firebase';
+import {firebaseApp} from 'firebase';
 import { GoogleSignin } from 'react-native-google-signin';
-const firebaseApp = firebase.initializeApp(require('./config/firebase.json'));
 
 // var {
 //

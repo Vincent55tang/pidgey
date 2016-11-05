@@ -3,7 +3,7 @@
 const navigationActions = require('./navigation');
 const authActions = require('./auth');
 const modalActions = require('./modal');
-const listActions = require('./list');
+const listActions = require('./lists');
 
 module.exports = {
     ...navigationActions,

@@ -108,5 +108,4 @@ styles = StyleSheet.create({
     }
 })
 
-
 module.exports = TaskView;

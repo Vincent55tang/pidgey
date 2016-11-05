@@ -1,7 +1,7 @@
 'use strict';
 
 import type { Action } from './types';
-type Tab = 'tasks' | 'info';
+type Tab = 'tasks' | 'info' | 'myLists';
 
 module.exports = {
     switchTab: (tab: Tab): Action=> ({

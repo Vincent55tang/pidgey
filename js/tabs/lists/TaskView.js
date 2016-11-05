@@ -74,8 +74,6 @@ class TaskView extends React.Component {
                  onPress={()=>null}
              />
             </View>
-
-
         );
     }
 
@@ -114,6 +112,5 @@ styles = StyleSheet.create({
         right: 25
     }
 })
-
 
 module.exports = TaskView;

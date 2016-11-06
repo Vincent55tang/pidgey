@@ -10,7 +10,6 @@ function createList(userID, title): ThunkAction {
     console.log("ACTIONS: createList");
     return (dispatch) => {
         var listID = listsDB.createList(userID, title);
-        console.log("ACTIONS: createList - ID", listID);
         return dispatch({
             type: 'CREATE_LIST',
             list: {

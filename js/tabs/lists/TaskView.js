@@ -5,8 +5,12 @@ var PidgeyTaskCell = require('./PidgeyTaskCell');
 var PidgeyButton = require('PidgeyButton');
 var PidgeyTaskModal = require('./PidgeyTaskModal')
 
-import { View, Text, StyleSheet } from 'react-native';
+var { connect } = require('react-redux');
 
+var { getUserTasksReference } = require('../../firebase/tasks');
+
+import { View, Text, StyleSheet } from 'react-native';
+import { openTaskModal } from '../../actions';
 import type { TaskList } from '../../reducers/tasks';
 
 type Props = {
@@ -26,41 +30,45 @@ class TaskView extends React.Component {
 
     constructor(props: Props) {
         super(props);
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            taskList: props.taskList,
-            dataSource: ds.cloneWithRows([
-                {title: 'Task 1'},
-                {title: 'Task 2'},
-                {title: 'Task 3'},
-                {title: 'Task 4'},
-                {title: 'Task 5'},
-                {title: 'Task 6'},
-                {title: 'Task 7'},
-                {title: 'Task 8'},
-                {title: 'Task 9'},
-                {title: 'Task 10'},
-                {title: 'Task 11'},
-                {title: 'Task 12'},
-            ]),
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
+            }),
+            isLoading: true,
         };
 
         (this: any).renderRow = this.renderRow.bind(this);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-        if(nextProps.taskList !== this.props.taskList) {
-            this.setState({
-                taskList: nextProps.taskList
+    componentDidMount() {
+        this.listenForTasks();
+    }
+
+    listenForTasks() {
+        var taskRef = getUserTasksReference(this.props.userID, this.props.listID);
+        taskRef.on('value', (snap) => {
+            var tasks = [];
+            snap.forEach((child) => {
+                tasks.push({
+                    title: child.val().title,
+                    location: child.val().location,
+                    key: child.key
+                });
             });
-        }
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(tasks),
+                isLoading: false,
+            });
+        });
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <ListView
+                <View style={styles.loading}>
 
+                </View>
+                <ListView
                   dataSource={this.state.dataSource}
                   renderRow={(rowData) => this.renderRow(rowData)}
                 >
@@ -68,7 +76,7 @@ class TaskView extends React.Component {
                 <PidgeyButton
                     style={styles.addButton}
                     caption="+"
-                    onPress={()=>null}
+                    onPress={()=>this.openEditModal()}
                 />
 
                 <PidgeyTaskModal/>
@@ -76,21 +84,20 @@ class TaskView extends React.Component {
         );
     }
 
-    renderList(): ?ReactElement {
-        if(this.props.taskList.tasks.size !==  0) {
-            var ds = new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2
-            });
-            return null;
-        }
-    }
-
-    renderRow(task: Task) {
+    renderRow(task) {
+        console.log(task.key);
         return (
             <PidgeyTaskCell
-                task={task}
+                title={task.title}
+                location={task.location}
+                taskID={task.key}
             />
         );
+    }
+
+
+    openEditModal() {
+        this.props.dispatch(openTaskModal({}, true));
     }
 }
 
@@ -108,4 +115,11 @@ styles = StyleSheet.create({
     }
 })
 
-module.exports = TaskView;
+function select(store) {
+    return {
+        userID: store.user.id,
+        listID: store.list.currentList.listID,
+    }
+}
+
+module.exports = connect(select)(TaskView);

@@ -19,7 +19,7 @@ var googleConfig = require('../../config/google');
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import type { Task } from '../../reducers/tasks';
-import { closeTaskModal } from '../../actions';
+import { closeTaskModal, addTask, updateTask } from '../../actions';
 
 const NEW_TASK_TITLE_PLACEHOLDER = "What do you need to do?";
 const NEW_TASK_LOCATION_PLACEHOLDER = "Where can this be done?";
@@ -30,72 +30,68 @@ class PidgeyTaskModal extends React.Component {
     props: {
         isOpen: boolean;
         task: Task;
+        isNewTask: boolean;
     };
 
     constructor(props: Props) {
         super(props);
         this.state = {
-            task: {
-                title: '',
-                location: {
-                    name: '',
-                    lat: undefined,
-                    long: undefined
-                }
+            title: '',
+            taskID: '',
+            location: {
+                name: '',
+                latitude: undefined,
+                longitude: undefined
             },
             displayMap: false
         };
     }
 
+    componentWillMount() {
+        console.log(this.props.task);
+    }
+
     componentWillReceiveProps(nextProps: Props) {
-        console.log("PidgeyTaskModal Received Props", nextProps);
         if(nextProps.isOpen !== this.props.isOpen) {
             if(!nextProps.isOpen) {
                 this.closeModal();
             }
         }
-        if(nextProps.task !== this.props.task) {
+        console.log("task modal received props: ", nextProps);
+        if(nextProps.task.title !== this.props.title) {
             this.setState({
-                task: {
-                    ...nextProps.task,
-                    location: {
-                        name: '',
-                        lat: undefined,
-                        long: undefined,
-                    }
-                }
-            })
+                title: nextProps.task.title,
+            });
+        }
+        if(nextProps.task.location !== this.props.location) {
+            this.setState({
+                location: nextProps.task.location
+            });
         }
     }
 
     onLocationSelect(data, details) {
         console.log(data, details);
         this.setState({
-            task: {
-                title: this.state.task.title,
-                location: {
-                    name: data.structured_formatting.main_text,
-                    subtitle: data.structured_formatting.secondary_text,
-                    placeID: data.place_id,
-                    lat: details.geometry.location.lat,
-                    long: details.geometry.location.lng,
-                    types: details.types,
-                    description: data.description
-                }
+            location: {
+                name: data.structured_formatting.main_text,
+                subtitle: data.structured_formatting.secondary_text,
+                placeID: data.place_id,
+                lat: details.geometry.location.lat,
+                long: details.geometry.location.lng,
+                types: details.types,
+                description: data.description
             }
         });
     }
 
     clearLocationSelect() {
         this.setState({
-            task: {
-                title: this.state.task.title,
-                location: {
-                    lat: undefined,
-                    long: undefined,
-                    name: '',
-                    placeID: ''
-                }
+            location: {
+                lat: undefined,
+                long: undefined,
+                name: '',
+                placeID: ''
             },
             displayMap: false,
         });
@@ -121,22 +117,19 @@ class PidgeyTaskModal extends React.Component {
                             </TouchableOpacity>
                             <TextInput
                                 style={styles.titleInput}
-                                onChangeText={(text) => this.setState({task:{title:text}})}
-                                value={this.state.task.title}
+                                onChangeText={(text) => this.setState({title:text})}
+                                value={this.state.title}
                                 placeholder={NEW_TASK_TITLE_PLACEHOLDER}
                             />
                         </View>
                         <View style={styles.locationEdit}>
                             <GooglePlacesAutocomplete
+                                location={this.state.location}
                                 placeholder={NEW_TASK_LOCATION_PLACEHOLDER}
-                                autoFocus={false}
                                 listViewDisplayed='auto'
                                 fetchDetails={true}
                                 onPress={(data,details = null) => this.onLocationSelect(data, details)}
                                 clearData={() => this.clearLocationSelect()}
-                                getDefaultValue={()=> {
-                                    return '';
-                                }}
                                 query={{
                                     key: googleConfig.mapsAPI,
                                     language: 'en'
@@ -152,9 +145,6 @@ class PidgeyTaskModal extends React.Component {
                                     setLocationContainer: styles.setLocationContainer,
                                     locationSecondary: styles.locationSecondary,
                                 }}
-                                currentLocation={false}
-                                currentLocationLabel="CurrentLocation"
-                                nearbyPlacesAPI='GooglePlacesSearch'
                                 GooglePlacesSearchQuery={{
                                     rankby: 'distance'
                                 }}
@@ -162,11 +152,8 @@ class PidgeyTaskModal extends React.Component {
                             />
                         </View>
                         <View style={styles.updateTaskContainer}>
-                            <PidgeyButton
-                                style={styles.updateButton}
-                                caption={this.renderUpdateAddButtonText()}
-                                onPress={() => {}}
-                            />
+                            {this.renderUpdateAddButton()}
+
                         </View>
                     </View>
                 </View>
@@ -174,12 +161,45 @@ class PidgeyTaskModal extends React.Component {
         )
     }
 
-    renderUpdateAddButtonText() {
-        if(this.props.isAdd) {
-            return ADD_TASK_BUTTON_TEXT.toUpperCase();
+    renderUpdateAddButton() {
+        if(this.props.isNewTask) {
+            var text = ADD_TASK_BUTTON_TEXT.toUpperCase();
+            return (
+                <PidgeyButton
+                    style={styles.updateButton}
+                    caption={text}
+                    onPress={() => {this.addTask()}}
+                />
+            );
         } else {
-            return UPDATE_TASK_BUTTON_TEXT.toUpperCase();
+            var text = UPDATE_TASK_BUTTON_TEXT.toUpperCase();
+            return (
+                <PidgeyButton
+                    style={styles.updateButton}
+                    caption={text}
+                    onPress={() => {this.updateTask()}}
+                />
+            );
         }
+    }
+
+    updateTask() {
+        this.props.dispatch(updateTask(
+            this.props.userID,
+            this.props.listID,
+            this.props.task.taskID,
+            {title: this.state.title, location: this.state.location}
+        ));
+        this.closeModal();
+    }
+
+    addTask() {
+        console.log(this.state.task);
+        this.props.dispatch(addTask(
+            this.props.userID,
+            this.props.listID,
+            {title: this.state.title, location: this.state.location}));
+        this.closeModal();
     }
 
     closeModal() {
@@ -276,7 +296,10 @@ var styles = StyleSheet.create({
 function select(store) {
     return {
         isOpen: store.modal.isOpen,
-        task: store.modal.task
+        isNewTask: store.modal.isNewTask,
+        task: store.modal.task,
+        listID: store.list.currentList.listID,
+        userID: store.user.id,
     }
 }
 

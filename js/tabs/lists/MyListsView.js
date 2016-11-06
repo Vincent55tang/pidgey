@@ -59,7 +59,6 @@ class MyListsView extends React.Component {
 
     listenForListItems() {
         var itemRef = getUserListReference(this.props.userID);
-        console.log(itemRef);
 
         itemRef.on('value', (snap) => {
             var items = [];

@@ -11,6 +11,7 @@ export type List = {
 export type Task = {
     title: string;
     location: Location;
+    key: string;
     isDone: boolean;
     isRouted: boolean;
 };

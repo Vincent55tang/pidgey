@@ -5,14 +5,24 @@ import {
     Action
 } from './types'
 
-function openTaskModal(task: Task): ThunkAction {
+function openTaskModal(task, newTask: boolean): ThunkAction {
     console.log("ACTIONS: openTaskModal");
     return (dispatch) => {
-        return dispatch({
-            type: 'OPEN_TASK_MODAL',
-            task: task,
-            isOpen: true
-        });
+        if(newTask) {
+            return dispatch({
+                type: 'OPEN_TASK_MODAL',
+                task: {},
+                isOpen: true,
+                isNewTask: true,
+            })
+        } else {
+            return dispatch({
+                type: 'OPEN_TASK_MODAL',
+                task: task,
+                isOpen: true,
+                isNewTask: false,
+            });
+        }
     }
 }
 

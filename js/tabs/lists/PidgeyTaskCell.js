@@ -16,7 +16,8 @@ import type { Task } from '../../reducers/tasks';
 import { openTaskModal } from '../../actions';
 
 type Props = {
-    task: Task;
+    title: string,
+    location: object,
     style: any;
     navigator: Navigator;
 }
@@ -39,14 +40,12 @@ class PidgeyTaskCell extends React.Component {
     }
 
     render() {
-        var task = this.props.task;
-
         var cell =
             <View style={styles.container}>
                 <View style={[styles.cell, this.props.style]}>
                     <View style={styles.taskTitle}>
                         <Text style={styles.titleText}>
-                            {task.title}
+                            {this.props.title}
                         </Text>
                     </View>
                     <TouchableOpacity
@@ -61,7 +60,13 @@ class PidgeyTaskCell extends React.Component {
     }
 
     openEditModal() {
-        this.props.dispatch(openTaskModal(this.props.task));
+        this.props.dispatch(
+            openTaskModal({
+                title: this.props.title,
+                taskID: this.props.taskID,
+                location: this.props.location
+            }, false)
+        );
     }
 }
 

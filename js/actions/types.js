@@ -10,6 +10,8 @@ export type Action =
   | { type: 'UPDATE_TASK'}
   | { type: 'CREATE_LIST'}
   | { type: 'GET_LISTS'}
+  | { type: 'ADD_TASK'}
+  | { type: 'UPDATE_TASK'}
   ;
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;

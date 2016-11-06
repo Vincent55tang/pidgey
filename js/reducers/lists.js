@@ -3,7 +3,10 @@
 import type {Action} from '../actions/types';
 
 export type State = {
-    currentList: string;
+    currentList: {
+        listID: string;
+        listTitle: string;
+    };
 };
 
 const initialState = {
@@ -23,7 +26,7 @@ function list(state: State = initialState, action: Action): State {
             }
         }
     } else {
-        return initialState;
+        return state;
     }
 }
 

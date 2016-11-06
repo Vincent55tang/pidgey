@@ -14,23 +14,24 @@ var Modal = require('Modal');
 var TouchableHighlight = require('TouchableHighlight');
 var TouchableOpacity = require('TouchableOpacity');
 var TextInput = require('TextInput');
+var TaskMapView = require('./TaskMapView');
 var { connect } = require('react-redux');
 
 
-import { createList } from '../../actions';
+import { createList, selectList } from '../../actions';
+import { switchTab } from '../../actions';
 
 
 var { getUserListReference } = require('../../firebase/lists');
 
 import { View, Text, StyleSheet } from 'react-native';
-import Swiper from 'react-native-swiper';
 import type { TaskList } from '../../reducers/tasks';
 
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-var NEW_LIST_TITLE_PLACEHOLDER = "What do you need to organize?";
-var NEW_LIST_BUTTON_PLACEHOLDER = "Create List!";
+const NEW_LIST_TITLE_PLACEHOLDER = "What do you need to organize?";
+const NEW_LIST_BUTTON_PLACEHOLDER = "Create List!";
 
 class MyListsView extends React.Component {
     props: Props;
@@ -93,10 +94,19 @@ class MyListsView extends React.Component {
         this.setModalVisible(false);
     }
 
+    selectList(listID, listName) {
+        this.props.dispatch(selectList(listID, listName));
+        this.props.dispatch(switchTab('tasks'));
+    }
 
     render() {
         const createListCell = (item) => (
-            <PidgeyListCell title={item.title} key={item._key} />);
+            <PidgeyListCell
+                title={item.title}
+                key={item._key}
+                onPress={()=>this.selectList(item._key, item.title)}
+            />
+        );
 
         return (
             <ListContainer title="My Lists">
@@ -163,6 +173,7 @@ class MyListsView extends React.Component {
                                 }
                                 placeholder={NEW_LIST_TITLE_PLACEHOLDER}
                                 onChangeSubmit={(text) => this.createList(this.state.list.title)}
+                                autoFocus={true}
                             />
                         </View>
                         <View>

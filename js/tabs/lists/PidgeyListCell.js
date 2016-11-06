@@ -48,7 +48,7 @@ class PidgeyListCell extends React.Component {
         return(
             <View style={[styles.container]}>
                 <TouchableOpacity style={[this.props.style, styles.cell]} onPress={this.props.onPress}>
-                    <Text>{this.props.title}</Text>
+                    <Text style={styles.titleText}>{this.props.title}</Text>
                     {this.props.children}
                 </TouchableOpacity>
             </View>
@@ -72,11 +72,12 @@ var styles = StyleSheet.create({
         backgroundColor: PidgeyColors.listProgress,
     },
     titleText: {
-        fontSize: 17,
-        lineHeight: 24,
+        fontSize: 20,
         color: PidgeyColors.darkText,
         marginBottom: 4,
         marginRight: 10,
+        marginLeft: 10,
+        fontWeight: "100",
     },
     editIcon: {
         width: 30

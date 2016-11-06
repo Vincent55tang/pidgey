@@ -9,6 +9,7 @@ export type Action =
   | { type: 'CLOSE_TASK_MODAL'}
   | { type: 'UPDATE_TASK'}
   | { type: 'CREATE_LIST'}
+  | { type: 'SELECT_LIST'}
   | { type: 'GET_LISTS'}
   | { type: 'ADD_TASK'}
   | { type: 'UPDATE_TASK'}

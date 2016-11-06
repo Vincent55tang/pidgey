@@ -113,7 +113,7 @@ class PidgeyTabsView extends React.Component {
                         selectedIcon={require('./icons/info-icon-active.png')}
                     />
                     <MenuItem
-                        title="MyLists"
+                        title="My Lists"
                         selected={this.props.tab === 'myLists'}
                         onPress={this.onTabSelect.bind(this, 'myLists')}
                     />

@@ -25,6 +25,13 @@ function list(state: State = initialState, action: Action): State {
                 listTitle: action.list.title
             }
         }
+    } else if (action.type === 'SELECT_LIST') {
+        return {
+            currentList: {
+                listID: action.currentList.id,
+                listTitle: action.currentList.title
+            }
+        }
     } else {
         return state;
     }

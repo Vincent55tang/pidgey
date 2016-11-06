@@ -3,6 +3,7 @@ var React = require('React');
 var MapView = require('react-native-maps');
 var ListContainer = require('ListContainer');
 var StyleSheet = require('StyleSheet');
+var Dimensions = require('Dimensions');
 
 var View = require('View');
 var Text = require('Text');
@@ -46,8 +47,8 @@ class TaskMapView extends React.Component {
         var longMax;
         var i = 0;
         for (location in this.state.taskList) {
-            var lat = location.latitude;
-            var long = location.longitude;
+            var lat = location.lat;
+            var long = location.long;
             if (!latMin || latMin > lat) {latMin = lat;}
             if (!latMax || latMax < lat) {latMax = lat;}
             if (!longMin || longMin > long) {longMin = long;}
@@ -58,7 +59,7 @@ class TaskMapView extends React.Component {
                 title: i,
                 description: location.title
             };
-            i++
+            ++i;
         }
         return (
             {
@@ -83,8 +84,8 @@ class TaskMapView extends React.Component {
                                 latitude: 0.01,
                                 longitude: 0.01,
                             }}
-                            title={"tere"}
-                            description={"Adsadsads"}
+                            title={"test"}
+                            description={"ing"}
                         />
                     </MapView>
                 </View>
@@ -95,6 +96,8 @@ class TaskMapView extends React.Component {
 
 const DEFAULT_LAT_DELTA = 0.09;
 const DEFAULT_LONG_DELTA = 0.04;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 var styles = StyleSheet.create({
     container: {
@@ -103,8 +106,8 @@ var styles = StyleSheet.create({
     },
     map: {
         flex: 1,
-        height: 300,
-        width: 300,
+        height: SCREEN_HEIGHT / 2,
+        width: SCREEN_WIDTH,
     }
 })
 

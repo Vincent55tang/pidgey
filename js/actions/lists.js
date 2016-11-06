@@ -20,4 +20,16 @@ function createList(userID, title): ThunkAction {
     }
 }
 
-module.exports = { createList };
+function selectList(listID, title): ThunkAction {
+    return (dispatch) => {
+        return dispatch({
+            type: 'SELECT_LIST',
+            currentList: {
+                title: title,
+                id: listID
+            }
+        });
+    }
+}
+
+module.exports = { createList, selectList };

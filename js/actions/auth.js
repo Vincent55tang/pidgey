@@ -1,4 +1,4 @@
-import firebase from '../firebase/';
+import {firebaseAuth, firebaseApp, firebaseRoot} from '../firebase/';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 
 import {
@@ -15,8 +15,8 @@ async function _signInWithGoogleFirebase(): Promise<Array<Action>> {
     });
 
     const user = await GoogleSignin.signIn();
-    const credential = firebase.auth.GoogleAuthProvider.credential(user.idToken);
-    const login = await firebase.auth().signInWithCredential(credential);
+    const credential = firebaseRoot.auth.GoogleAuthProvider.credential(user.idToken);
+    const login = await firebaseApp.auth().signInWithCredential(credential);
 
     console.log("_signInWithGoogleFirebase", login.displayName);
 
@@ -56,7 +56,7 @@ function signOut(): ThunkAction {
     console.log('auth.signOut')
     return (dispatch) => {
         GoogleSignin.signOut();
-        firebase.auth().signOut()
+        firebaseApp.auth().signOut()
 
         return dispatch({
             type: 'SIGN_OUT'

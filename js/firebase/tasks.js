@@ -19,9 +19,17 @@ export function updateTask(userID, listID, taskID, task) {
     console.log("_TASKS", userID, task);
     var listRef = 'users/' + userID + '/lists/' + listID + "/tasks/" + taskID;
     var updates = {};
-    updates[listRef] = {
-        title: task.title,
-        location: task.location
+
+    if (task.location.lat === undefined) {
+        updates[listRef] = {
+            title: task.title,
+            location: {}
+        }
+    } else {
+        updates[listRef] = {
+            title: task.title,
+            location: task.location
+        }
     }
     firebaseDB.ref().update(updates);
     return listRef;

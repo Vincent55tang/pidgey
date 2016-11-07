@@ -66,7 +66,7 @@ class LogoutButton extends React.Component {
             this._isMounted && this.setState({isLoading: false});
         }
 
-        onLoggedIn && onLoggedOut();
+        onLoggedOut && onLoggedOut();
     }
 }
 

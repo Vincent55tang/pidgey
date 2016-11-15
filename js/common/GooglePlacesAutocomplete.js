@@ -223,7 +223,7 @@ const GooglePlacesAutocomplete = React.createClass({
       });
     }
     if(nextProps.location) {
-        console.log("autocomplete receive props:" , nextProps);
+        console.log("autocomplete receive props:" , nextProps.location);
     }
 
     const {focus} = nextProps;

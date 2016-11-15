@@ -192,10 +192,11 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headerWrapper: {
-      elevation: 2,
+      elevation: 1,
       backgroundColor: 'transparent',
       // FIXME: elevation doesn't seem to work without setting border
       borderRightWidth: 1,
+
       marginRight: -1,
       borderRightColor: 'transparent',
   },

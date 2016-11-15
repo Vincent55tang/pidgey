@@ -8,14 +8,15 @@ export type List = {
     tasks: Array<Task>;
 };
 
-export Type Task = {
+export type Task = {
     title: string;
     location: Location;
+    key: string;
     isDone: boolean;
     isRouted: boolean;
 };
 
-export Type Location = {
+export type Location = {
     lat: number;
     long: number;
     placeId: string;
@@ -24,6 +25,8 @@ export Type Location = {
 function tasks(state: State = {}, action: Action): State {
     switch(action.type) {
         case 'EDIT_TASK':
+            return action.task;
+        default:
             return action.task;
     }
 }

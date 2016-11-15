@@ -191,11 +191,39 @@ const GooglePlacesAutocomplete = React.createClass({
     return [...res, ...results];
   },
 
+  componentWillMount() {
+      console.log("componentWillMount", this.props.location);
+      if(this.props.location.lat != undefined) {
+          this.setState({
+              description: this.props.location.description,
+              latitude: this.props.location.lat,
+              longitude: this.props.location.long,
+              main: this.props.location.name,
+              subtitle: this.props.location.subtitle,
+              isEditing: false,
+              displayMap: true,
+          })
+      } else {
+          this.setState({
+              description: "",
+              latitude: undefined,
+              longitude: undefined,
+              main: '',
+              isEditing: true,
+              subtitle: '',
+              displayMap: false,
+          })
+      }
+  },
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.listViewDisplayed !== 'auto') {
       this.setState({
         listViewDisplayed: nextProps.listViewDisplayed,
       });
+    }
+    if(nextProps.location) {
+        console.log("autocomplete receive props:" , nextProps);
     }
 
     const {focus} = nextProps;
@@ -630,7 +658,7 @@ const GooglePlacesAutocomplete = React.createClass({
   },
 
   renderSetLocation(userProps) {
-      if(this.state.text && this.state.subtitle && !this.state.isEditing) {
+      if(this.state.main && this.state.subtitle && !this.state.isEditing) {
           return (
               <View style={this.props.styles.setLocationContainer}>
                   <TouchableOpacity onPress={() => {
@@ -673,10 +701,12 @@ const GooglePlacesAutocomplete = React.createClass({
 
 
       getCoordinates(region) {
-          console.log("_getCoordinates", region)
-          return {
-              longitude: region.longitude,
-              latitude: region.latitude
+          if(this.state.latitude !== undefined && this.state.longitude !== undefined && this.state.displayMap) {
+              console.log("_getCoordinates", region)
+              return {
+                  longitude: region.longitude,
+                  latitude: region.latitude
+              }
           }
       },
 

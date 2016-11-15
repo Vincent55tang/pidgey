@@ -10,6 +10,8 @@
 var PidgeyInfoView = require('PidgeyInfoView');
 var PidgeyListView = require('PidgeyListView');
 var PidgeyColors = require('PidgeyColors');
+var MyListsView = require('./lists/MyListsView');
+var TaskMapView = require('./lists/TaskMapView')
 var React = require('React');
 var Navigator = require('Navigator');
 var PidgeyDrawerLayout = require('PidgeyDrawerLayout');
@@ -110,6 +112,16 @@ class PidgeyTabsView extends React.Component {
                         icon={require('./icons/info-icon.png')}
                         selectedIcon={require('./icons/info-icon-active.png')}
                     />
+                    <MenuItem
+                        title="My Lists"
+                        selected={this.props.tab === 'myLists'}
+                        onPress={this.onTabSelect.bind(this, 'myLists')}
+                    />
+                    <MenuItem
+                        title="Map"
+                        selected={this.props.tab === 'map'}
+                        onPress={this.onTabSelect.bind(this, 'map')}
+                    />
                     {logoutItem}
                 </View>
             );
@@ -118,21 +130,17 @@ class PidgeyTabsView extends React.Component {
     renderContent() {
         switch (this.props.tab) {
             case 'tasks':
-                return(
-                    <PidgeyListView
-                        navigator={this.props.navigator}
-                    />
-                );
-
+                return <PidgeyListView navigator={this.props.navigator} />;
             case 'info':
                 return <PidgeyInfoView navigator={this.props.navigator} />;
-
             case 'list':
-                return(
-                    <PidgeyListView
-                        navigator={this.props.navigator}
-                    />
-                );
+                return <PidgeyListView navigator={this.props.navigator} />;
+            case 'myLists':
+                return <MyListsView navigator={this.props.navigator} />;
+            case 'map':
+                return <TaskMapView navigator={this.props.navigator} />;
+            default:
+                return <PidgeyInfoView navigator={this.props.navigator} />;
         }
         throw new Error(`Unknown tab ${this.props.tab}`);
     }

@@ -9,6 +9,7 @@ var TouchableOpacity = require('TouchableOpacity');
 var View = require('View');
 var Alert = require('Alert');
 var Dimensions = require('Dimensions');
+var PidgeyNumber = require('PidgeyNumber');
 import Icon from 'react-native-vector-icons/Ionicons';
 
 var { connect } = require('react-redux');
@@ -44,14 +45,14 @@ class PidgeyListCell extends React.Component {
     }
 
     render() {
-        var list = this.props.list;
-
-        var cell =
-                <View style={[styles.cell, {backgroundColor: this.getCellColor()}]}>
-                    <Text>Hello More Text Here</Text>
-                </View>
-
-        return cell;
+        return(
+            <View style={[styles.container]}>
+                <TouchableOpacity style={[this.props.style, styles.cell]} onPress={this.props.onPress}>
+                    <Text style={styles.titleText}>{this.props.title}</Text>
+                    {this.props.children}
+                </TouchableOpacity>
+            </View>
+        );
     }
 }
 
@@ -60,21 +61,23 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10,
+        paddingVertical: PidgeyNumber.defaultPadding,
+        backgroundColor: 'white',
     },
     cell: {
         justifyContent: 'center',
-        flexDirection: 'row',
-        flex: 2,
-        minWidth: 150,
-        margin: 5,
+        flex: 1,
+        width: SCREEN_WIDTH * 0.8,
+        marginRight: PidgeyNumber.defaultPadding,
+        backgroundColor: PidgeyColors.listProgress,
     },
     titleText: {
-        fontSize: 17,
-        lineHeight: 24,
+        fontSize: 20,
         color: PidgeyColors.darkText,
         marginBottom: 4,
         marginRight: 10,
+        marginLeft: 10,
+        fontWeight: "100",
     },
     editIcon: {
         width: 30

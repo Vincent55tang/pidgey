@@ -6,48 +6,67 @@
 
 var React = require('React');
 var ListContainer = require('ListContainer');
-var PureListView = require('../../common/PureListView');
 var MapView = require('react-native-maps');
-var TSPButton = require('../../common/TSPButton')
-import { View, Text, StyleSheet, NativeModules } from 'react-native';
+var TextInput = require('TextInput');
+var PidgeyButton = require('PidgeyButton');
 
-function PidgeyInfoView() {
-    return (
-        <ListContainer
-            title="Information"
-            backgroundImage={require('./img/info-background.png')}
-            backgroundColor={'#47BFBF'}>
-                <View style={styles.container}>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <Text>Test</Text>
-                    <MapView
-                        initialRegion={{
-                            latitude: 37.78825,
-                            longitude: -122.4324,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        }}
-                        style={styles.map}
-                    />
+var { connect } = require('react-redux');
+
+import { View, Text, StyleSheet, NativeModules} from 'react-native';
+
+import { createList } from '../../actions';
+
+class PidgeyInfoView extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showCreateListError: false,
+            list: {
+                title: '',
+            }
+        }
+    }
+
+    render() {
+        return (
+            <ListContainer
+                title="TEST PAGE"
+                backgroundImage={require('./img/info-background.png')}
+                backgroundColor={'#47BFBF'}>
                     <View style={styles.container}>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
-                        <Text>HELLO</Text>
+                        <TextInput
+                            editable={true}
+                            onChangeText={
+                                (text) => this.setState({
+                                    list: {
+                                        title: text
+                                    }
+                                })
+                            }
+                            onSubmitEditing={
+                                (text) => this.createList(text)
+                            }
+                            placeholder={"What is this list for?"}
+                        />
+                        <PidgeyButton
+                            styles={styles.button}
+                            caption={"Create!"}
+                            onPress={() => this.createList(this.state.list.title)}
+                        />
                     </View>
-                </View>
-                <TSPButton source="Drawer" />
-        </ListContainer>
-    )
+            </ListContainer>
+        )
+    }
+
+    createList(listName) {
+        if(listName === '') {
+            this.setState({showCreateListError: true});
+            return;
+        }
+        console.log("INFO: CREATE LIST");
+        this.props.dispatch(createList(this.props.user.id, listName));
+    }
 }
 
 var styles = StyleSheet.create({
@@ -65,6 +84,16 @@ var styles = StyleSheet.create({
         bottom: 0,
         right: 0,
     },
+    button: {
+        width: 50,
+    }
 });
 
-module.exports = PidgeyInfoView;
+function select(store) {
+    return {
+        list: store.list,
+        user: store.user
+    }
+}
+
+module.exports = connect(select)(PidgeyInfoView);

@@ -4,7 +4,8 @@ import type { Action } from '../actions/types';
 
 export type State = {
     task: Task,
-    isOpen: boolean
+    isOpen: boolean,
+    isNewTask: boolean,
 };
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
             title: '',
         }
     },
-    isOpen: false
+    isOpen: false,
+    isNewTask: false,
 };
 
 function modal(state: State = initialState, action: Action): State {
@@ -22,7 +24,8 @@ function modal(state: State = initialState, action: Action): State {
         case 'OPEN_TASK_MODAL':
             return {
                 task: action.task,
-                isOpen: true
+                isOpen: true,
+                isNewTask: action.isNewTask,
             }
         case 'CLOSE_TASK_MODAL':
             return initialState;

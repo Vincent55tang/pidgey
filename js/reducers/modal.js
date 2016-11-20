@@ -16,6 +16,7 @@ const initialState = {
         }
     },
     isOpen: false,
+    isDeleteOpen: false,
     isNewTask: false,
 };
 
@@ -28,6 +29,13 @@ function modal(state: State = initialState, action: Action): State {
                 isNewTask: action.isNewTask,
             }
         case 'CLOSE_TASK_MODAL':
+            return initialState;
+        case 'OPEN_DELETE_LIST_MODAL':
+            return {
+                isDeleteOpen: true,
+                deleteList: action.deleteList,
+            }
+        case 'CLOSE_DELETE_LIST_MODAL':
             return initialState;
         default:
             return state;

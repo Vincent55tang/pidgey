@@ -71,6 +71,7 @@ class TaskView extends React.Component {
                 <ListView
                   dataSource={this.state.dataSource}
                   renderRow={(rowData) => this.renderRow(rowData)}
+                  renderFotter={this.renderFooter()}
                 >
                 </ListView>
                 <PidgeyButton
@@ -78,7 +79,6 @@ class TaskView extends React.Component {
                     caption="+"
                     onPress={()=>this.openEditModal()}
                 />
-
                 <PidgeyTaskModal/>
             </View>
         );
@@ -95,6 +95,9 @@ class TaskView extends React.Component {
         );
     }
 
+    renderFooter() {
+        return (<View style={styles.spacer} />);
+    }
 
     openEditModal() {
         this.props.dispatch(openTaskModal({}, true));
@@ -103,7 +106,7 @@ class TaskView extends React.Component {
 
 styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
     addButton: {
         height: 60,
@@ -112,6 +115,12 @@ styles = StyleSheet.create({
         position: 'absolute',
         bottom: 25,
         right: 25
+    },
+    spacer: {
+        height: 100,
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: '#9a9a94'
     }
 })
 

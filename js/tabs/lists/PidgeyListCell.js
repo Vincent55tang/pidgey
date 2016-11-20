@@ -15,10 +15,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 var { connect } = require('react-redux');
 
 import type { Task } from '../../reducers/tasks';
-import { openTaskModal } from '../../actions';
+import { openDeleteListModal } from '../../actions';
 
 type Props = {
-    task: Task;
     style: any;
     navigator: Navigator;
 }
@@ -44,13 +43,26 @@ class PidgeyListCell extends React.Component {
         return PidgeyColors.listProgress;
     }
 
+    openDeleteModal(key) {
+        console.log("_PIDGEYLISTCELL DELETE", key)
+        this.props.dispatch(
+            openDeleteListModal(key)
+        );
+    }
+
     render() {
         return(
             <View style={[styles.container]}>
-                <TouchableOpacity style={[this.props.style, styles.cell]} onPress={this.props.onPress}>
-                    <Text style={styles.titleText}>{this.props.title}</Text>
-                    {this.props.children}
-                </TouchableOpacity>
+                <View style={styles.deleteButton}>
+                    <TouchableOpacity onPress={() => {this.openDeleteModal(this.props.listID)}}>
+                        <Icon name="ios-trash-outline" size={25}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.cell}>
+                    <TouchableOpacity onPress={this.props.onPress}>
+                        <Text style={styles.titleText}>{this.props.title}</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -60,24 +72,27 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 var styles = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingVertical: PidgeyNumber.defaultPadding,
-        backgroundColor: 'white',
+        //flex: 1,
+        //flexDirection: '',
+        padding: PidgeyNumber.defaultPadding,
+        marginVertical: PidgeyNumber.defaultPadding,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: SCREEN_WIDTH*0.5,
+        width: SCREEN_WIDTH*0.7,
+            backgroundColor: '#f0f0f0',
     },
     cell: {
-        justifyContent: 'center',
         flex: 1,
-        width: SCREEN_WIDTH * 0.8,
-        marginRight: PidgeyNumber.defaultPadding,
-        backgroundColor: PidgeyColors.listProgress,
+        paddingBottom: 25,
     },
     titleText: {
         fontSize: 20,
         color: PidgeyColors.darkText,
-        marginBottom: 4,
-        marginRight: 10,
-        marginLeft: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
         fontWeight: "100",
+        flex:1,
     },
     editIcon: {
         width: 30
@@ -88,6 +103,10 @@ var styles = StyleSheet.create({
         right: 0,
         top: 0,
     },
+    deleteButton: {
+        flex: 1,
+        alignSelf: 'flex-end',
+    }
 });
 
 function select(store, props) {

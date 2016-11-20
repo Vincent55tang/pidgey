@@ -4,6 +4,7 @@ var React = require('React');
 var StyleSheet = require('StyleSheet');
 var View = require('View');
 var TouchableOpacity = require('TouchableOpacity');
+var TouchableHighlight = require('TouchableHighlight');
 var Modal = require('Modal');
 var Text = require('Text');
 var TextInput = require('TextInput');
@@ -120,6 +121,8 @@ class PidgeyTaskModal extends React.Component {
                                 onChangeText={(text) => this.setState({title:text})}
                                 value={this.state.title}
                                 placeholder={NEW_TASK_TITLE_PLACEHOLDER}
+                                autoCapitalize='sentences'
+                                autoCorrect={true}
                             />
                         </View>
                         <View style={styles.locationEdit}>

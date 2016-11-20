@@ -15,11 +15,15 @@ var { connect } = require('react-redux');
 import type { Task } from '../../reducers/tasks';
 import { openTaskModal } from '../../actions';
 
+import { Checkbox } from 'react-native-material-design';
+
+
 type Props = {
     title: string,
     location: object,
-    style: any;
-    navigator: Navigator;
+    style: any,
+    navigator: Navigator,
+    onCheck: func;
 }
 
 type State = {
@@ -40,18 +44,27 @@ class PidgeyTaskCell extends React.Component {
     }
 
     render() {
+        var location;
+        if (this.props.location !== undefined) {
+            location = <Text style={styles.locationText}>
+                {this.props.location.name}
+            </Text>;
+        }
         var cell =
             <View style={styles.container}>
                 <View style={[styles.cell, this.props.style]}>
-                    <View style={styles.taskTitle}>
+                    <View style={styles.checkboxContainer}>
+                    </View>
+                    <View style={styles.titleContainer}>
                         <Text style={styles.titleText}>
                             {this.props.title}
                         </Text>
+                        {location}
                     </View>
                     <TouchableOpacity
                         style={styles.editIcon}
                         onPress={()=> this.openEditModal()}>
-                        <Icon name="md-create" size={30} />
+                        <Icon name="ios-create-outline" size={30} />
                     </TouchableOpacity>
                 </View>
             </View>;
@@ -75,24 +88,30 @@ var styles = StyleSheet.create({
         flex: 1
     },
   cell: {
-    paddingVertical: 15,
-    paddingLeft: 17,
+    //paddingLeft: 17,
     backgroundColor: 'white',
-    justifyContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  titleContainer: {
+      flex: 1,
+      paddingVertical: 15,
+      paddingHorizontal: 10,
   },
   titleText: {
-    fontSize: 17,
-    lineHeight: 24,
+    fontSize: 16,
     color: PidgeyColors.darkText,
-    marginBottom: 4,
-    marginRight: 10,
+  },
+  locationText: {
+      fontSize: 12,
+      fontStyle: 'italic',
   },
   editIcon: {
-      width: 30
+      width: 30,
   },
   added: {
     position: 'absolute',
@@ -100,7 +119,16 @@ var styles = StyleSheet.create({
     right: 0,
     top: 0,
   },
+  checkbox: {
+      margin: 0,
+      padding: 0,
+  }
 });
+
+
+PidgeyTaskCell.defaultProps = {
+    onCheck: () => {},
+}
 
 function select(store, props) {
     return {

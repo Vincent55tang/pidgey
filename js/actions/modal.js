@@ -37,4 +37,25 @@ function closeTaskModal(): ThunkAction {
     }
 }
 
-module.exports = { openTaskModal, closeTaskModal };
+function openDeleteListModal(listID): ThunkAction {
+    console.log("ACTIONS: deleteListModal");
+    return (dispatch) => {
+        return dispatch({
+            type: 'OPEN_DELETE_LIST_MODAL',
+            isDeleteOpen: true,
+            deleteList: listID,
+        });
+    }
+}
+
+function closeDeleteListModal(): ThunkAction {
+    console.log("ACTIONS: deleteListModal");
+    return (dispatch) => {
+        return dispatch({
+            type: 'CLOSE_DELETE_LIST_MODAL',
+            isDeleteOpen: false
+        })
+    }
+}
+
+module.exports = { openTaskModal, closeTaskModal, openDeleteListModal, closeDeleteListModal };

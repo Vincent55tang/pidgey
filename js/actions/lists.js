@@ -32,4 +32,15 @@ function selectList(listID, title): ThunkAction {
     }
 }
 
-module.exports = { createList, selectList };
+function deleteList(userID, listID): ThunkAction {
+    console.log("ACTIONS: deleteList");
+    return (dispatch) => {
+        var deleteList = listsDB.deleteList(userID, listID);
+        console.log("HELLO");
+        return dispatch({
+            type: 'DELETE_LIST'
+        })
+    }
+}
+
+module.exports = { createList, selectList, deleteList };

@@ -32,4 +32,15 @@ function selectList(listID, title): ThunkAction {
     }
 }
 
-module.exports = { createList, selectList };
+function showListMap(taskList): ThunkAction {
+    return (dispatch) => {
+        return dispatch({
+            type: 'SHOW_LIST_MAP',
+            currentList: {
+                taskList: taskList,
+            }
+        });
+    }
+}
+
+module.exports = { createList, selectList, showListMap };

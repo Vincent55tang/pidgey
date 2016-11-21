@@ -12,7 +12,7 @@ var PidgeyButton = require('PidgeyButton');
 
 var { connect } = require('react-redux');
 
-import { View, Text, StyleSheet, NativeModules} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import { createList } from '../../actions';
 

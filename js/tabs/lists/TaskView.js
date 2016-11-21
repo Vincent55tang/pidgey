@@ -9,9 +9,11 @@ var { connect } = require('react-redux');
 
 var { getUserTasksReference } = require('../../firebase/tasks');
 
-import { View, Text, StyleSheet } from 'react-native';
-import { openTaskModal } from '../../actions';
+import { View, Text, StyleSheet, NativeModules } from 'react-native';
+import { openTaskModal, showListMap, switchTab } from '../../actions';
 import type { TaskList } from '../../reducers/tasks';
+
+// var TSP = NativeModules.TSP;
 
 type Props = {
     taskView: string;
@@ -62,6 +64,12 @@ class TaskView extends React.Component {
         });
     }
 
+    showListMap() {
+        this.listenForTasks();
+        this.props.dispatch(showListMap(this.state.dataSource._dataBlob));
+        this.props.dispatch(switchTab('map'));
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -77,6 +85,11 @@ class TaskView extends React.Component {
                     style={styles.addButton}
                     caption="+"
                     onPress={()=>this.openEditModal()}
+                />
+                <PidgeyButton
+                    style={styles.mapButton}
+                    caption="M"
+                    onPress={()=>this.showListMap()}
                 />
 
                 <PidgeyTaskModal/>
@@ -112,6 +125,10 @@ styles = StyleSheet.create({
         position: 'absolute',
         bottom: 25,
         right: 25
+    },
+    mapButton: {
+        height: 60,
+        width: 120
     }
 })
 

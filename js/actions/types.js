@@ -10,6 +10,7 @@ export type Action =
   | { type: 'UPDATE_TASK'}
   | { type: 'CREATE_LIST'}
   | { type: 'SELECT_LIST'}
+  | { type: 'SHOW_LIST_MAP'}
   | { type: 'GET_LISTS'}
   | { type: 'ADD_TASK'}
   | { type: 'UPDATE_TASK'}

@@ -2,7 +2,7 @@ package com.pidgey.tsp;
 
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import android.widget.Toast;
@@ -20,12 +20,13 @@ public class TSPModule extends ReactContextBaseJavaModule {
     // Member functions
 
     @ReactMethod
-    public void solve(ReadableMap obj) {
-      Toast.makeText(getReactApplicationContext(), message, duration).show();
+    public void solve(ReadableArray locations) {
+        // String message = locations.getInt(0).getString("key");
+        Toast.makeText(getReactApplicationContext(),"Hello",10).show();
     }
 
     @Override
     public String getName() {
-      return "TSP";
+        return "TSP";
     }
 }

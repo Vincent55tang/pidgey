@@ -49,9 +49,16 @@ class TaskView extends React.Component {
         taskRef.on('value', (snap) => {
             var tasks = [];
             snap.forEach((child) => {
+                var check;
+                if(child.val().checked === undefined) {
+                    check = false;
+                } else {
+                    check = child.val().checked;
+                }
                 tasks.push({
                     title: child.val().title,
                     location: child.val().location,
+                    checked: check,
                     key: child.key
                 });
             });
@@ -65,9 +72,7 @@ class TaskView extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.loading}>
-
-                </View>
+                <View style={styles.loading}></View>
                 <ListView
                   dataSource={this.state.dataSource}
                   renderRow={(rowData) => this.renderRow(rowData)}
@@ -85,12 +90,12 @@ class TaskView extends React.Component {
     }
 
     renderRow(task) {
-        console.log(task.key);
         return (
             <PidgeyTaskCell
                 title={task.title}
                 location={task.location}
                 taskID={task.key}
+                checked={task.checked}
             />
         );
     }

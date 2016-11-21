@@ -1,5 +1,18 @@
 var {firebaseDB} = require('../firebase');
 
+export function checkTask(userID, listID, taskID, checked) {
+    console.log("_TASKS - CHECKING");
+    var itemRef = 'users/' + userID + '/lists/' + listID + '/tasks/' + taskID + '/checked';
+
+    var updates = {}
+    updates[itemRef] = !checked;
+
+    console.log(updates);
+
+    firebaseDB.ref().update(updates);
+    return itemRef;
+}
+
 
 export function addTask(userID, listID, task) {
     console.log("_TASKS", userID, task);
@@ -9,10 +22,16 @@ export function addTask(userID, listID, task) {
     var updates = {};
     updates[listRef + newTaskRef] = {
         title: task.title,
-        location: task.location
+        location: task.location,
+        checked: false,
     }
     firebaseDB.ref().update(updates);
     return newTaskRef;
+}
+
+export function deleteTask(userID, listID, taskID) {
+    var itemRef = 'users/' + userID + '/lists/' + listID + '/tasks/' + taskID;
+    firebaseDB.ref(itemRef).remove();
 }
 
 export function updateTask(userID, listID, taskID, task) {

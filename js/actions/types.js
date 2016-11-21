@@ -14,6 +14,8 @@ export type Action =
   | { type: 'GET_LISTS'}
   | { type: 'ADD_TASK'}
   | { type: 'UPDATE_TASK'}
+  | { type: 'CHECK_TASK'}
+  | { type: 'DELETE_TASK'}
   ;
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;

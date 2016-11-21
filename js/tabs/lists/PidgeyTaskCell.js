@@ -49,7 +49,7 @@ class PidgeyTaskCell extends React.Component {
     }
 
     render() {
-        var location = "";
+        var location = (<Text></Text>);
         if (this.props.location !== undefined) {
             location = <Text style={styles.locationText}>
                 {this.props.location.name}

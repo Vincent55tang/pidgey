@@ -47,8 +47,7 @@ class PidgeyTaskModal extends React.Component {
                     <View style={styles.deleteListModal}>
                         <View style={styles.deleteListModalContent}>
                             <View style={styles.deleteListModalInfo}>
-                                <TouchableHighlight
-                                    onPress={() => console.log("no")}>
+                                <TouchableHighlight>
                                     <View style={styles.closeDeleteListModalButton}>
                                         <TouchableOpacity onPress={() => {
                                             this.closeModal();

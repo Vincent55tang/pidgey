@@ -77,8 +77,7 @@ class TaskView extends React.Component {
                   dataSource={this.state.dataSource}
                   renderRow={(rowData) => this.renderRow(rowData)}
                   renderFotter={this.renderFooter()}
-                >
-                </ListView>
+                />
                 <PidgeyButton
                     style={styles.addButton}
                     caption="+"

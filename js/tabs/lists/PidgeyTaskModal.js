@@ -49,7 +49,6 @@ class PidgeyTaskModal extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props.task);
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -72,7 +71,6 @@ class PidgeyTaskModal extends React.Component {
     }
 
     onLocationSelect(data, details) {
-        console.log(data, details);
         this.setState({
             location: {
                 name: data.structured_formatting.main_text,
@@ -197,7 +195,6 @@ class PidgeyTaskModal extends React.Component {
     }
 
     addTask() {
-        console.log(this.state.task);
         this.props.dispatch(addTask(
             this.props.userID,
             this.props.listID,

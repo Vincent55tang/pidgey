@@ -222,9 +222,7 @@ const GooglePlacesAutocomplete = React.createClass({
         listViewDisplayed: nextProps.listViewDisplayed,
       });
     }
-    if(nextProps.location) {
-        console.log("autocomplete receive props:" , nextProps.location);
-    }
+    if(nextProps.location) {    }
 
     const {focus} = nextProps;
     focus && this.focus();

@@ -12,7 +12,6 @@ class ProfilePicture extends React.Component {
 
     render() {
         const {photo, size} = this.props;
-        console.log(photo);
         const scaledSize = size * PixelRatio.get();
 
         return (

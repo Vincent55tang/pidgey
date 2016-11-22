@@ -16,6 +16,7 @@ var TouchableOpacity = require('TouchableOpacity');
 var TextInput = require('TextInput');
 var TaskMapView = require('./TaskMapView');
 var { connect } = require('react-redux');
+var ListDeleteModal = require('./ListDeleteModal');
 
 
 import { createList, selectList } from '../../actions';
@@ -42,6 +43,7 @@ class MyListsView extends React.Component {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             modalVisible: false,
+            deleteModalVisible: false,
             lists: [
                 {title: ''}
             ],
@@ -59,14 +61,14 @@ class MyListsView extends React.Component {
     }
 
     listenForListItems() {
-        var itemRef = getUserListReference(this.props.userID);
+        var itemRef = getUserListReference(this.props.userID).orderByKey();
 
         itemRef.on('value', (snap) => {
             var items = [];
             snap.forEach((child)=> {
                 items.push({
                     title: child.val().title,
-                    _key: child.key
+                    listID: child.key
                 });
             });
             this.setState({
@@ -77,10 +79,6 @@ class MyListsView extends React.Component {
 
     componentDidMount() {
         this.listenForListItems();
-    }
-
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
     }
 
     createList(listName) {
@@ -102,8 +100,8 @@ class MyListsView extends React.Component {
         const createListCell = (item) => (
             <PidgeyListCell
                 title={item.title}
-                key={item._key}
-                onPress={()=>this.selectList(item._key, item.title)}
+                listID={item.listID}
+                onPress={()=>this.selectList(item.listID, item.title)}
             />
         );
 
@@ -111,25 +109,15 @@ class MyListsView extends React.Component {
             <ListContainer title="My Lists">
                 <View style={styles.container}>
                     <ScrollView
-                        contentContainerStyle={styles.cellList}
-                        dataSource={this.state.dataSource}
                         style={styles.scrollView}
-                        horizontal={true}
-                        snapToInterval={width*0.8}
+                        dataSource={this.state.dataSource}
                         snapToAlignment={"start"}
                         showHorizontalScrollIndicator={false}
                         alwaysBounceHorizontal={true}
+                        contentContainerStyle={styles.scrollViewContentStyle}
                     >
                         {this.state.lists.map(createListCell)}
-                        <PidgeyListCell
-                            title="Add Task!"
-                            onPress={()=>this.setModalVisible(true)}
-                            style={styles.addListCell}
-                        >
-                            <Icon name="ios-add-circle-outline" size={30} style={styles.addListCellicon} />
-                        </PidgeyListCell>
                     </ScrollView>
-                    <Text>UserID: {this.props.userID}</Text>
                     <PidgeyButton
                         style={styles.addListButton}
                         caption="+"
@@ -138,9 +126,16 @@ class MyListsView extends React.Component {
                 </View>
 
                 {this.renderModal()}
+                <ListDeleteModal />
 
             </ListContainer>
         );
+    }
+
+    setModalVisible(visible) {
+        this.setState({
+            modalVisible: visible
+        })
     }
 
     renderModal() {
@@ -149,7 +144,7 @@ class MyListsView extends React.Component {
                 animationType={"fade"}
                 transparent={true}
                 visible={this.state.modalVisible}
-                onRequestClose={() => {alert("Modal has been closed")}}
+                onRequestClose={() => {this.setModalVisible(false)}}
                 style={styles.addListModal}
             >
                 <View style={styles.addListModal}>
@@ -200,6 +195,9 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 25,
+        paddingTop: 100,
+        flexDirection: 'row',
+        backgroundColor: '#f0f7a8'
     },
     cellList: {
         justifyContent: 'center',
@@ -207,21 +205,25 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         alignItems: 'flex-start',
     },
+    scrollViewContentStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     scrollView: {
-        height: HEIGHT * 0.5,
-        paddingHorizontal: PidgeyNumber.defaultPadding,
-        paddingRight: 25,
+        height: HEIGHT*0.88,
     },
     scrollViewItem: {
-        width: width*0.8,
-        backgroundColor: '#06735f',
+        backgroundColor: '#f0f0f0',
         margin: 10,
-        height: width*0.8,
+        height: 300,
     },
     addListButton: {
         height: 60,
         width: 60,
         borderRadius: 30,
+        position: 'absolute',
+        bottom: PidgeyNumber.defaultPadding,
+        right: PidgeyNumber.defaultPadding,
     },
     addListCellicon: {
         color: 'white',

@@ -27,4 +27,26 @@ function updateTask(userID, listID, taskID, task): ThunkAction {
     }
 }
 
-module.exports = { addTask, updateTask };
+function deleteTask(userID, listID, taskID): ThunkAction {
+    console.log("ACTIONS: deleteTask");
+    return (dispatch) => {
+        tasksDB.deleteTask(userID, listID, taskID);
+
+        return dispatch({
+            type: 'DELETE_TASK'
+        })
+    }
+}
+
+function checkTask(userID, listID, taskID, task): ThunkAction {
+    console.log("ACTIONS: checkTask");
+    return (dispatch) => {
+        tasksDB.checkTask(userID, listID, taskID, task);
+
+        return dispatch({
+            type: 'CHECK_TASK'
+        })
+    }
+}
+
+module.exports = { addTask, updateTask, checkTask, deleteTask };

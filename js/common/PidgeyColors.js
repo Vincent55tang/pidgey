@@ -17,5 +17,7 @@ module.exports = {
   gradientLight: '#b6e286',
   listProgress: '#45ac97',
   listDone:  '#b6e286',
+  yellow: '#ffdb72',
+  red: '#e0605c',
   modalDark: 'rgba(0,0,0,0.5)',
 };

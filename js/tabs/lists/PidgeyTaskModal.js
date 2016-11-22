@@ -4,6 +4,7 @@ var React = require('React');
 var StyleSheet = require('StyleSheet');
 var View = require('View');
 var TouchableOpacity = require('TouchableOpacity');
+var TouchableHighlight = require('TouchableHighlight');
 var Modal = require('Modal');
 var Text = require('Text');
 var TextInput = require('TextInput');
@@ -48,7 +49,6 @@ class PidgeyTaskModal extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props.task);
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -71,7 +71,6 @@ class PidgeyTaskModal extends React.Component {
     }
 
     onLocationSelect(data, details) {
-        console.log(data, details);
         this.setState({
             location: {
                 name: data.structured_formatting.main_text,
@@ -120,6 +119,8 @@ class PidgeyTaskModal extends React.Component {
                                 onChangeText={(text) => this.setState({title:text})}
                                 value={this.state.title}
                                 placeholder={NEW_TASK_TITLE_PLACEHOLDER}
+                                autoCapitalize='sentences'
+                                autoCorrect={true}
                             />
                         </View>
                         <View style={styles.locationEdit}>
@@ -194,7 +195,6 @@ class PidgeyTaskModal extends React.Component {
     }
 
     addTask() {
-        console.log(this.state.task);
         this.props.dispatch(addTask(
             this.props.userID,
             this.props.listID,

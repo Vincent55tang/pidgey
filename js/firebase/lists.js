@@ -16,8 +16,7 @@ export function createList(userID, title) {
 
 export function deleteList(userID, listID) {
     console.log("_LISTS", userID, listID);
-    var listRef = '/users/' + userID + '/lists/' + 'listID';
-
+    var listRef = '/users/' + userID + '/lists/' + listID;
     return firebaseDB.ref(listRef).remove();
 }
 

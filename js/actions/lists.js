@@ -43,4 +43,14 @@ function showListMap(taskList): ThunkAction {
     }
 }
 
-module.exports = { createList, selectList, showListMap };
+function deleteList(userID, listID): ThunkAction {
+    console.log("ACTIONS: deleteList");
+    return (dispatch) => {
+        var deleteList = listsDB.deleteList(userID, listID);
+        return dispatch({
+            type: 'DELETE_LIST'
+        })
+    }
+}
+
+module.exports = { createList, selectList, deleteList, showListMap };

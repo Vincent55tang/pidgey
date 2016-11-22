@@ -11,9 +11,12 @@ export type Action =
   | { type: 'CREATE_LIST'}
   | { type: 'SELECT_LIST'}
   | { type: 'SHOW_LIST_MAP'}
+  | { type: 'DELETE_LIST'}
   | { type: 'GET_LISTS'}
   | { type: 'ADD_TASK'}
   | { type: 'UPDATE_TASK'}
+  | { type: 'CHECK_TASK'}
+  | { type: 'DELETE_TASK'}
   ;
 
 export type Dispatch = (action: Action | ThunkAction | PromiseAction | Array<Action>) => any;

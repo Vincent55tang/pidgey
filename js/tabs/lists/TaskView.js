@@ -51,9 +51,16 @@ class TaskView extends React.Component {
         taskRef.on('value', (snap) => {
             var tasks = [];
             snap.forEach((child) => {
+                var check;
+                if(child.val().checked === undefined) {
+                    check = false;
+                } else {
+                    check = child.val().checked;
+                }
                 tasks.push({
                     title: child.val().title,
                     location: child.val().location,
+                    checked: check,
                     key: child.key
                 });
             });
@@ -73,14 +80,12 @@ class TaskView extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.loading}>
-
-                </View>
+                <View style={styles.loading}></View>
                 <ListView
                   dataSource={this.state.dataSource}
                   renderRow={(rowData) => this.renderRow(rowData)}
-                >
-                </ListView>
+                  renderFotter={this.renderFooter()}
+                />
                 <PidgeyButton
                     style={styles.addButton}
                     caption="+"
@@ -98,16 +103,19 @@ class TaskView extends React.Component {
     }
 
     renderRow(task) {
-        console.log(task.key);
         return (
             <PidgeyTaskCell
                 title={task.title}
                 location={task.location}
                 taskID={task.key}
+                checked={task.checked}
             />
         );
     }
 
+    renderFooter() {
+        return (<View style={styles.spacer} />);
+    }
 
     openEditModal() {
         this.props.dispatch(openTaskModal({}, true));
@@ -116,7 +124,7 @@ class TaskView extends React.Component {
 
 styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
     addButton: {
         height: 60,
@@ -129,6 +137,12 @@ styles = StyleSheet.create({
     mapButton: {
         height: 60,
         width: 120
+    }
+    spacer: {
+        height: 100,
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: '#9a9a94'
     }
 })
 

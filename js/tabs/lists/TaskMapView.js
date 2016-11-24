@@ -4,6 +4,7 @@ var MapView = require('react-native-maps');
 var ListContainer = require('ListContainer');
 var StyleSheet = require('StyleSheet');
 var Dimensions = require('Dimensions');
+var TaskMapViewDetails = require('./TaskMapViewDetails');
 
 var View = require('View');
 var Text = require('Text');
@@ -30,10 +31,12 @@ class TaskMapView extends React.Component {
     constructor(props: Props) {
         super(props);
         this.state = props;
+        this.state = {selected: undefined}
         this.markers = [];
     }
 
     componentWillMount() {
+        // Not sure if this is needed
         this.setState({optimalRoute: this.generateRoute()});
     }
 
@@ -70,11 +73,16 @@ class TaskMapView extends React.Component {
     }
 
     generateRoute() {
+        if (!this.props.taskList.s1)
+            return;
         var markers = this.props.taskList.s1;
         var result = [];
         result[0] = markers[0];
         result[0].title = "" + 1;
         markers[0].visited = true;
+
+        for (i = 1; i < markers.length; ++i)
+            markers[i].visited = false;
 
         for (i = 1; i < markers.length; ++i) {
             var minDistance;
@@ -100,37 +108,58 @@ class TaskMapView extends React.Component {
         return result;
     }
 
+    showMarkerDetails(marker) {
+        console.log(marker);
+        this.setState({selected: marker});
+    }
+
     dist(marker1, marker2) {
         return Math.sqrt(Math.pow(marker2.location.lat-marker1.location.lat, 2)+Math.pow(marker2.location.long-marker1.location.long, 2))
     }
 
     render() {
-        return (
-            <ListContainer title="Map">
-                <View style={styles.container}>
-                    <MapView
-                        style={styles.map}
-                        initialRegion={this.initialMapSetup()}
-                    >
-                        {this.markers.map(marker => (
-                            <MapView.Marker
-                                coordinate={marker.coordinate}
-                                title={marker.title}
-                                description={marker.description}
-                            />
-                        ))}
-                        <MapView.Polyline
-                            coordinates={this.state.optimalRoute.map(marker => (
-                                {
-                                    latitude: marker.location.lat,
-                                    longitude: marker.location.long
-                                }
+        // if (false) {
+        if (this.markers) {
+            return (
+                <ListContainer title="Map">
+                    <View style={styles.container}>
+                        <MapView
+                            style={styles.map}
+                            initialRegion={this.initialMapSetup()}
+                        >
+                            {this.markers.map(marker => (
+                                <MapView.Marker
+                                    coordinate={marker.coordinate}
+                                    title={marker.title}
+                                    description={marker.description}
+                                    onPress={()=>this.showMarkerDetails(marker)}
+                                />
                             ))}
-                        />
-                    </MapView>
-                </View>
-            </ListContainer>
-        );
+                            <MapView.Polyline
+                                coordinates={this.state.optimalRoute.map(marker => (
+                                    {
+                                        latitude: marker.location.lat,
+                                        longitude: marker.location.long
+                                    }
+                                ))}
+                            />
+                        </MapView>
+                        <TaskMapViewDetails selected={this.state.selected}/>
+                    </View>
+                </ListContainer>
+            );
+        } else {
+            return (
+                <ListContainer title="Map">
+                    <View style={styles.container}>
+                        <Text>
+                            Nothing
+                        </Text>
+                    </View>
+                    <TaskMapViewDetails selected={this.state.selected}/>
+                </ListContainer>
+            );
+        }
     }
 }
 

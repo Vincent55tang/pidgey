@@ -137,7 +137,7 @@ styles = StyleSheet.create({
     mapButton: {
         height: 60,
         width: 120
-    }
+    },
     spacer: {
         height: 100,
         flex: 1,

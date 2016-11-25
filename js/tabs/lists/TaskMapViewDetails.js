@@ -19,7 +19,7 @@ class TaskMapViewDetails extends React.Component {
         if (this.props.selected) {
             return (
                 <View style={styles.container}>
-                    <Text> Place: {this.props.selected.description}</Text>
+                    <Text> Title: {this.props.selected.title}</Text>
                     <Text> Place: {this.props.selected.description}</Text>
                 </View>
             );

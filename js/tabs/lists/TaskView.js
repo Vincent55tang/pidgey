@@ -73,7 +73,7 @@ class TaskView extends React.Component {
 
     showListMap() {
         this.listenForTasks();
-        this.props.dispatch(showListMap(this.state.dataSource._dataBlob));
+        this.props.dispatch(showListMap(this.state.dataSource._dataBlob.s1));
         this.props.dispatch(switchTab('map'));
     }
 

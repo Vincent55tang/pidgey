@@ -45,7 +45,7 @@ class TaskMapView extends React.Component {
         var latMax;
         var longMin;
         var longMax;
-        var taskList = this.props.taskList.s1;
+        var taskList = this.props.taskList;
         for (i = 0; i < taskList.length; ++i) {
             var lat = taskList[i].location.lat;
             var long = taskList[i].location.long;
@@ -58,7 +58,7 @@ class TaskMapView extends React.Component {
                     latitude: lat,
                     longitude: long,
                 },
-                title: taskList[i].location.title,
+                title: taskList[i].title,
                 description: taskList[i].location.description
             };
         }
@@ -73,12 +73,12 @@ class TaskMapView extends React.Component {
     }
 
     generateRoute() {
-        if (!this.props.taskList.s1)
+        if (!this.props.taskList)
             return;
-        var markers = this.props.taskList.s1;
+        var markers = this.props.taskList;
         var result = [];
         result[0] = markers[0];
-        result[0].title = "" + 1;
+        result[0].order = "" + 1;
         markers[0].visited = true;
 
         for (i = 1; i < markers.length; ++i)
@@ -102,14 +102,13 @@ class TaskMapView extends React.Component {
             }
             // j contains index of closest marker
             result[i] = markers[minJ];
-            result[i].title = "" + (i+1);
+            result[i].order = "" + (i+1);
             markers[minJ].visited = true;
         }
         return result;
     }
 
     showMarkerDetails(marker) {
-        console.log(marker);
         this.setState({selected: marker});
     }
 
@@ -118,7 +117,6 @@ class TaskMapView extends React.Component {
     }
 
     render() {
-        // if (false) {
         if (this.markers) {
             return (
                 <ListContainer title="Map">
@@ -130,8 +128,6 @@ class TaskMapView extends React.Component {
                             {this.markers.map(marker => (
                                 <MapView.Marker
                                     coordinate={marker.coordinate}
-                                    title={marker.title}
-                                    description={marker.description}
                                     onPress={()=>this.showMarkerDetails(marker)}
                                 />
                             ))}

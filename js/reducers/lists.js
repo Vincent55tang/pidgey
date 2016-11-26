@@ -6,6 +6,7 @@ export type State = {
     currentList: {
         listID: string;
         listTitle: string;
+        taskList: Object;
     };
 };
 
@@ -13,6 +14,7 @@ const initialState = {
     currentList: {
         listID: '',
         listTitle: '',
+        tasklist: {},
     }
 };
 
@@ -30,6 +32,12 @@ function list(state: State = initialState, action: Action): State {
             currentList: {
                 listID: action.currentList.id,
                 listTitle: action.currentList.title
+            }
+        }
+    } else if (action.type === 'SHOW_LIST_MAP') {
+        return {
+            currentList: {
+                taskList: action.currentList.taskList,
             }
         }
     } else {

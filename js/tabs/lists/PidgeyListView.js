@@ -84,11 +84,11 @@ function actions(dispatch) {
 }
 
 var styles = StyleSheet.create({
-  container: {
-    paddingTop: 40,
-    paddingHorizontal: 50,
-    backgroundColor: 'white',
-  }
+    container: {
+        paddingTop: 40,
+        paddingHorizontal: 50,
+        backgroundColor: 'white',
+    },
 });
 
 module.exports = connect(select, actions)(PidgeyListView);

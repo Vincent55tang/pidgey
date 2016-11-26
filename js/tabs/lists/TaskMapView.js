@@ -4,9 +4,12 @@ var MapView = require('react-native-maps');
 var ListContainer = require('ListContainer');
 var StyleSheet = require('StyleSheet');
 var Dimensions = require('Dimensions');
+var TaskMapViewDetails = require('./TaskMapViewDetails');
 
 var View = require('View');
 var Text = require('Text');
+var { connect } = require('react-redux');
+var { getUserTasksReference } = require('../../firebase/tasks');
 
 import type { TaskList } from '../../reducers/tasks';
 
@@ -27,17 +30,14 @@ class TaskMapView extends React.Component {
 
     constructor(props: Props) {
         super(props);
-        this.state = {
-            taskList: props.taskList
-        };
+        this.state = props;
+        this.state = {selected: undefined}
+        this.markers = [];
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-        if(nextProps.taskList !== this.props.taskList) {
-            this.setState({
-                taskList: nextProps.taskList
-            });
-        }
+    componentWillMount() {
+        // Not sure if this is needed
+        this.setState({optimalRoute: this.generateRoute()});
     }
 
     initialMapSetup() {
@@ -45,21 +45,22 @@ class TaskMapView extends React.Component {
         var latMax;
         var longMin;
         var longMax;
-        var i = 0;
-        for (location in this.state.taskList) {
-            var lat = location.lat;
-            var long = location.long;
+        var taskList = this.props.taskList;
+        for (i = 0; i < taskList.length; ++i) {
+            var lat = taskList[i].location.lat;
+            var long = taskList[i].location.long;
             if (!latMin || latMin > lat) {latMin = lat;}
             if (!latMax || latMax < lat) {latMax = lat;}
             if (!longMin || longMin > long) {longMin = long;}
             if (!longMax || longMax < long) {longMax = long;}
-            this.state.markers['location' + i] = {
-                latitutde: lat,
-                longitude: long,
-                title: i,
-                description: location.title
+            this.markers[i] = {
+                coordinate: {
+                    latitude: lat,
+                    longitude: long,
+                },
+                title: taskList[i].title,
+                description: taskList[i].location.description
             };
-            ++i;
         }
         return (
             {
@@ -71,26 +72,90 @@ class TaskMapView extends React.Component {
         );
     }
 
+    generateRoute() {
+        if (!this.props.taskList)
+            return;
+        var markers = this.props.taskList;
+        var result = [];
+        result[0] = markers[0];
+        result[0].order = "" + 1;
+        markers[0].visited = true;
+
+        for (i = 1; i < markers.length; ++i)
+            markers[i].visited = false;
+
+        for (i = 1; i < markers.length; ++i) {
+            var minDistance;
+            var minJ;
+            minDistance = undefined;
+            minJ = undefined;
+
+            for(j = 0; j < markers.length; ++j) {
+                var dist;
+                if(!markers[j].visited) {
+                    dist = this.dist(markers[j], result[i-1]);
+                    if (!(minDistance < dist)) {
+                        minDistance = dist;
+                        minJ = j;
+                    }
+                }
+            }
+            // j contains index of closest marker
+            result[i] = markers[minJ];
+            result[i].order = "" + (i+1);
+            markers[minJ].visited = true;
+        }
+        return result;
+    }
+
+    showMarkerDetails(marker) {
+        this.setState({selected: marker});
+    }
+
+    dist(marker1, marker2) {
+        return Math.sqrt(Math.pow(marker2.location.lat-marker1.location.lat, 2)+Math.pow(marker2.location.long-marker1.location.long, 2))
+    }
+
     render() {
-        return (
-            <ListContainer title="Map">
-                <View style={styles.container}>
-                    <MapView
-                        style={styles.map}
-                        initialRegion={this.initialMapSetup()}
-                    >
-                        <MapView.Marker
-                            coordinate={{
-                                latitude: 0.01,
-                                longitude: 0.01,
-                            }}
-                            title={"test"}
-                            description={"ing"}
-                        />
-                    </MapView>
-                </View>
-            </ListContainer>
-        );
+        if (this.markers) {
+            return (
+                <ListContainer title="Map">
+                    <View style={styles.container}>
+                        <MapView
+                            style={styles.map}
+                            initialRegion={this.initialMapSetup()}
+                        >
+                            {this.markers.map(marker => (
+                                <MapView.Marker
+                                    coordinate={marker.coordinate}
+                                    onPress={()=>this.showMarkerDetails(marker)}
+                                />
+                            ))}
+                            <MapView.Polyline
+                                coordinates={this.state.optimalRoute.map(marker => (
+                                    {
+                                        latitude: marker.location.lat,
+                                        longitude: marker.location.long
+                                    }
+                                ))}
+                            />
+                        </MapView>
+                        <TaskMapViewDetails selected={this.state.selected}/>
+                    </View>
+                </ListContainer>
+            );
+        } else {
+            return (
+                <ListContainer title="Map">
+                    <View style={styles.container}>
+                        <Text>
+                            Nothing
+                        </Text>
+                    </View>
+                    <TaskMapViewDetails selected={this.state.selected}/>
+                </ListContainer>
+            );
+        }
     }
 }
 
@@ -111,4 +176,11 @@ var styles = StyleSheet.create({
     }
 })
 
-module.exports = TaskMapView;
+function select(store) {
+    return {
+        userID: store.user.id,
+        taskList: store.list.currentList.taskList,
+    }
+}
+
+module.exports = connect(select)(TaskMapView);

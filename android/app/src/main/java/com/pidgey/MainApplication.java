@@ -1,4 +1,5 @@
 package com.pidgey;
+import com.pidgey.tsp.*;
 
 import android.app.Application;
 import android.util.Log;
@@ -29,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new MapsPackage(),
             new LinearGradientPackage(),
-            new RNGoogleSigninPackage()
+            new RNGoogleSigninPackage(),
+            new TSPPackage()
       );
     }
   };

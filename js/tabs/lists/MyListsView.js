@@ -68,7 +68,8 @@ class MyListsView extends React.Component {
             snap.forEach((child)=> {
                 items.push({
                     title: child.val().title,
-                    listID: child.key
+                    listID: child.key,
+                    key: child.key
                 });
             });
             this.setState({
@@ -101,6 +102,7 @@ class MyListsView extends React.Component {
             <PidgeyListCell
                 title={item.title}
                 listID={item.listID}
+                key={item.listID}
                 onPress={()=>this.selectList(item.listID, item.title)}
             />
         );

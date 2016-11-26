@@ -7,8 +7,6 @@ export function checkTask(userID, listID, taskID, checked) {
     var updates = {}
     updates[itemRef] = !checked;
 
-    console.log(updates);
-
     firebaseDB.ref().update(updates);
     return itemRef;
 }
@@ -57,6 +55,5 @@ export function updateTask(userID, listID, taskID, task) {
 // USE THIS IF YOU WANNA WATCH
 export function getUserTasksReference(userID, listID) {
     var ref = '/users/' + userID + '/lists/' + listID + '/tasks/';
-    console.log(ref);
     return firebaseDB.ref(ref);
 }

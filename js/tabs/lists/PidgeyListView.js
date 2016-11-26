@@ -71,7 +71,6 @@ class PidgeyListView extends React.Component {
 }
 
 function select(store) {
-    console.log(store.list);
     return {
         user: store.user,
         list: store.list

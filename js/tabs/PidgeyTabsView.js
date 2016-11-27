@@ -22,6 +22,9 @@ var Image = require('Image');
 var { Text } = require('PidgeyText');
 var MenuItem = require('./MenuItem');
 
+
+import Icon from 'react-native-vector-icons/Ionicons';
+
 var LogoutButton = require('../common/LogoutButton');
 var ProfilePicture = require('../common/ProfilePicture');
 
@@ -99,28 +102,28 @@ class PidgeyTabsView extends React.Component {
                         {accountItem}
                     </Image>
                     <MenuItem
+                        title="Lists"
+                        selected={this.props.tab === 'myLists'}
+                        onPress={this.onTabSelect.bind(this, 'myLists')}
+                        icon={'ios-list-outline'}
+                    />
+                    <MenuItem
                         title="Tasks"
                         selected={this.props.tab === 'tasks'}
                         onPress={this.onTabSelect.bind(this, 'tasks')}
-                        icon={require('./icons/list-icon.png')}
-                        selectedIcon={require('./icons/list-icon-active.png')}
-                    />
-                    <MenuItem
-                        title="About"
-                        selected={this.props.tab === 'info'}
-                        onPress={this.onTabSelect.bind(this, 'info')}
-                        icon={require('./icons/info-icon.png')}
-                        selectedIcon={require('./icons/info-icon-active.png')}
-                    />
-                    <MenuItem
-                        title="My Lists"
-                        selected={this.props.tab === 'myLists'}
-                        onPress={this.onTabSelect.bind(this, 'myLists')}
+                        icon={'ios-checkmark-outline'}
                     />
                     <MenuItem
                         title="Map"
                         selected={this.props.tab === 'map'}
                         onPress={this.onTabSelect.bind(this, 'map')}
+                        icon={'ios-map-outline'}
+                    />
+                    <MenuItem
+                        title="About"
+                        selected={this.props.tab === 'info'}
+                        onPress={this.onTabSelect.bind(this, 'info')}
+                        icon={'ios-information-outline'}
                     />
                     {logoutItem}
                 </View>

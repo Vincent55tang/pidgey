@@ -8,7 +8,7 @@ module.exports = {
   actionText: '#3FB4CF',
   inactiveText: '#9B9B9B',
   darkText: '#3f3f3f',
-  lightText: '#7F91A7',
+  lightText: '#909090',
   cellBorder: '#EEEEEE',
   darkBackground: '#183E63',
   colorBackground: '#7F91A7',

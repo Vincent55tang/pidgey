@@ -3,7 +3,8 @@ var React = require('React');
 var ListView = require('ListView');
 var PidgeyTaskCell = require('./PidgeyTaskCell');
 var PidgeyButton = require('PidgeyButton');
-var PidgeyTaskModal = require('./PidgeyTaskModal')
+var PidgeyTaskModal = require('./PidgeyTaskModal');
+var LoadingSpinner = require('LoadingSpinner');
 
 var { connect } = require('react-redux');
 
@@ -73,18 +74,21 @@ class TaskView extends React.Component {
 
     showListMap() {
         this.listenForTasks();
-        this.props.dispatch(showListMap(this.state.dataSource._dataBlob.s1));
+        this.props.dispatch(showListMap(this.props.listID, this.props.title, this.state.dataSource._dataBlob.s1));
         this.props.dispatch(switchTab('map'));
     }
 
     render() {
+        if(this.state.isLoading) {
+            return (
+                <LoadingSpinner />
+            );
+        }
         return (
             <View style={styles.container}>
-                <View style={styles.loading}></View>
                 <ListView
                   dataSource={this.state.dataSource}
                   renderRow={(rowData) => this.renderRow(rowData)}
-                  renderFotter={this.renderFooter()}
                 />
                 <PidgeyButton
                     style={styles.addButton}
@@ -150,6 +154,7 @@ function select(store) {
     return {
         userID: store.user.id,
         listID: store.list.currentList.listID,
+        title: store.list.currentList.listTitle,
     }
 }
 

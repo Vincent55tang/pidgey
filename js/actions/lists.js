@@ -32,11 +32,13 @@ function selectList(listID, title): ThunkAction {
     }
 }
 
-function showListMap(taskList): ThunkAction {
+function showListMap(listID, title, taskList): ThunkAction {
     return (dispatch) => {
         return dispatch({
             type: 'SHOW_LIST_MAP',
             currentList: {
+                title: title,
+                id: listID,
                 taskList: taskList,
             }
         });

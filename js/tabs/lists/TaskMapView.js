@@ -73,10 +73,10 @@ class TaskMapView extends React.Component {
     }
 
     generateRoute() {
-        if (!this.props.taskList)
-            return;
-        var markers = this.props.taskList;
         var result = [];
+        if (!this.props.taskList || this.props.taskList.length == 0) return result;
+
+        var markers = this.props.taskList;
         result[0] = markers[0];
         result[0].order = "" + 1;
         markers[0].visited = true;

@@ -121,7 +121,7 @@ class TaskMapView extends React.Component {
     render() {
         if (this.markers) {
             return (
-                <ListContainer title="Map">
+                <ListContainer title={this.props.title}>
                     <View style={styles.container}>
                         <MapView
                             style={styles.map}
@@ -192,6 +192,7 @@ function select(store) {
     return {
         userID: store.user.id,
         taskList: store.list.currentList.taskList,
+        title: store.list.currentList.listTitle,
     }
 }
 

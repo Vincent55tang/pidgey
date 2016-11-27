@@ -5,6 +5,7 @@ var PidgeyTaskCell = require('./PidgeyTaskCell');
 var PidgeyButton = require('PidgeyButton');
 var PidgeyTaskModal = require('./PidgeyTaskModal');
 var LoadingSpinner = require('LoadingSpinner');
+var TaskNavigationBar = require('./TaskNavigationBar');
 
 var { connect } = require('react-redux');
 
@@ -90,15 +91,11 @@ class TaskView extends React.Component {
                   dataSource={this.state.dataSource}
                   renderRow={(rowData) => this.renderRow(rowData)}
                 />
-                <PidgeyButton
-                    style={styles.addButton}
-                    caption="+"
-                    onPress={()=>this.openEditModal()}
-                />
-                <PidgeyButton
-                    style={styles.mapButton}
-                    caption="M"
-                    onPress={()=>this.showListMap()}
+
+                <TaskNavigationBar
+                    showList={false}
+                    addOnPress={()=>this.openEditModal()}
+                    mapOnPress={()=>this.showListMap()}
                 />
 
                 <PidgeyTaskModal/>

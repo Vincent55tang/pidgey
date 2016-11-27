@@ -5,11 +5,13 @@ var ListContainer = require('ListContainer');
 var StyleSheet = require('StyleSheet');
 var Dimensions = require('Dimensions');
 var TaskMapViewDetails = require('./TaskMapViewDetails');
+var TaskNavigationBar = require('./TaskNavigationBar');
 
 var View = require('View');
 var Text = require('Text');
 var { connect } = require('react-redux');
 var { getUserTasksReference } = require('../../firebase/tasks');
+var { switchTab } = require('../../actions');
 
 import type { TaskList } from '../../reducers/tasks';
 
@@ -141,6 +143,11 @@ class TaskMapView extends React.Component {
                             />
                         </MapView>
                         <TaskMapViewDetails selected={this.state.selected}/>
+                        <TaskNavigationBar
+                            showMap={false}
+                            showAdd={false}
+                            listOnPress={()=>this.props.dispatch(switchTab('list'))}
+                        />
                     </View>
                 </ListContainer>
             );
@@ -153,6 +160,11 @@ class TaskMapView extends React.Component {
                         </Text>
                     </View>
                     <TaskMapViewDetails selected={this.state.selected}/>
+                    <TaskNavigationBar
+                        showMap={false}
+                        showAdd={false}
+                        listOnPress={()=>this.props.dispatch(switchTab('list'))}
+                    />
                 </ListContainer>
             );
         }
@@ -167,7 +179,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
     },
     map: {
         flex: 1,

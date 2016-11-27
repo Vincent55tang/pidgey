@@ -2,6 +2,7 @@ var Navigator = require('Navigator');
 var React = require('React');
 var StyleSheet = require('StyleSheet');
 var Dimensions = require('Dimensions');
+var PidgeyNumber = require('PidgeyNumber');
 
 var View = require('View');
 var Text = require('Text');
@@ -19,14 +20,14 @@ class TaskMapViewDetails extends React.Component {
         if (this.props.selected) {
             return (
                 <View style={styles.container}>
-                    <Text> Title: {this.props.selected.title}</Text>
-                    <Text> Place: {this.props.selected.description}</Text>
+                    <Text style={styles.taskTitle}>{this.props.selected.title}</Text>
+                    <Text style={styles.taskDescription}>{this.props.selected.description}</Text>
                 </View>
             );
         } else {
             return (
                 <View style={styles.container}>
-                    <Text style={styles.emptyText}> Tap on a marker to inspect it. </Text>
+                    <Text style={styles.emptyText}>Click a marker to view the task!</Text>
                 </View>
             );
         }
@@ -40,12 +41,19 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        height: SCREEN_HEIGHT / 3,
+        height: SCREEN_HEIGHT / 3 - 45,
         width: SCREEN_WIDTH,
+        padding: PidgeyNumber.defaultPadding,
     },
     emptyText: {
         textAlign: 'center',
         fontSize: 18
+    },
+    taskTitle: {
+        fontSize: 24,
+    },
+    taskDescription: {
+
     }
 })
 

@@ -6,6 +6,9 @@ var StyleSheet = require('StyleSheet');
 var Dimensions = require('Dimensions');
 var TaskMapViewDetails = require('./TaskMapViewDetails');
 var TaskNavigationBar = require('./TaskNavigationBar');
+var PidgeyColors = require('PidgeyColors');
+
+var googleConfig = require('../../config/google');
 
 var View = require('View');
 var Text = require('Text');
@@ -14,6 +17,7 @@ var { getUserTasksReference } = require('../../firebase/tasks');
 var { switchTab } = require('../../actions');
 
 import type { TaskList } from '../../reducers/tasks';
+import Qs from 'qs';
 
 type Props = {
     taskView: string;
@@ -33,13 +37,19 @@ class TaskMapView extends React.Component {
     constructor(props: Props) {
         super(props);
         this.state = props;
-        this.state = {selected: undefined}
         this.markers = [];
     }
 
     componentWillMount() {
-        // Not sure if this is needed
-        this.setState({optimalRoute: this.generateRoute()});
+        this.setState({
+            selected: undefined,
+            polylineCoordinates: undefined,
+            optimalRoute: this.generateRoute()
+        });
+    }
+
+    componentDidMount() {
+        this.fetchPolyline();
     }
 
     initialMapSetup() {
@@ -72,6 +82,36 @@ class TaskMapView extends React.Component {
                 longitudeDelta: ((longMax-longMin) || 0) + DEFAULT_LONG_DELTA
             }
         );
+    }
+
+    fetchPolyline() {
+        var self = this;
+        if(!this.loading) {
+            var list = self.props.taskList;
+            var waypoints = list.slice(1,list.length).map((w) => {
+                return 'place_id:'+w.location.placeID;
+            }).join('|');
+
+            const request = new Request('https://maps.googleapis.com/maps/api/directions/json?' +
+                Qs.stringify({
+                        origin: 'place_id:' + list[0].location.placeID,
+                        destination: 'place_id:' + list[0].location.placeID,
+                        key: googleConfig.mapsAPI,
+                        waypoints: waypoints
+                    }),
+                {
+                    method: 'GET',
+                })
+
+            fetch(request)
+            .then((response) => response.json())
+            .then((responseJSON) => {
+                self.setState({polylineCoordinates: this.decode(responseJSON.routes[0].overview_polyline.points, false)});
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
     }
 
     generateRoute() {
@@ -118,8 +158,58 @@ class TaskMapView extends React.Component {
         return Math.sqrt(Math.pow(marker2.location.lat-marker1.location.lat, 2)+Math.pow(marker2.location.long-marker1.location.long, 2))
     }
 
+    // Decode google maps polyline string
+    decode(str, precision) {
+        var index = 0,
+            lat = 0,
+            lng = 0,
+            coordinates = [],
+            shift = 0,
+            result = 0,
+            byte = null,
+            latitude_change,
+            longitude_change,
+            factor = Math.pow(10, precision || 5);
+
+        // Coordinates have variable length when encoded, so just keep
+        // track of whether we've hit the end of the string. In each
+        // loop iteration, a single coordinate is decoded.
+        while (index < str.length) {
+
+            // Reset shift, result, and byte
+            byte = null;
+            shift = 0;
+            result = 0;
+
+            do {
+                byte = str.charCodeAt(index++) - 63;
+                result |= (byte & 0x1f) << shift;
+                shift += 5;
+            } while (byte >= 0x20);
+
+            latitude_change = ((result & 1) ? ~(result >> 1) : (result >> 1));
+
+            shift = result = 0;
+
+            do {
+                byte = str.charCodeAt(index++) - 63;
+                result |= (byte & 0x1f) << shift;
+                shift += 5;
+            } while (byte >= 0x20);
+
+            longitude_change = ((result & 1) ? ~(result >> 1) : (result >> 1));
+
+            lat += latitude_change;
+            lng += longitude_change;
+
+            coordinates.push([lat / factor, lng / factor]);
+        }
+
+        return coordinates;
+    }
+
     render() {
-        if (this.markers) {
+        if (this.markers && this.state.polylineCoordinates) {
             return (
                 <ListContainer title={this.props.title}>
                     <View style={styles.container}>
@@ -133,13 +223,16 @@ class TaskMapView extends React.Component {
                                     onPress={()=>this.showMarkerDetails(marker)}
                                 />
                             ))}
+
                             <MapView.Polyline
-                                coordinates={this.state.optimalRoute.map(marker => (
+                                coordinates={this.state.polylineCoordinates.map((p) => (
                                     {
-                                        latitude: marker.location.lat,
-                                        longitude: marker.location.long
+                                        latitude: p[0],
+                                        longitude: p[1]
                                     }
                                 ))}
+                                strokeWidth={5}
+                                strokeColor={PidgeyColors.gradientDark}
                             />
                         </MapView>
                         <TaskMapViewDetails selected={this.state.selected}/>
@@ -156,7 +249,7 @@ class TaskMapView extends React.Component {
                 <ListContainer title="Map">
                     <View style={styles.container}>
                         <Text>
-                            Nothing
+                            Loading...
                         </Text>
                     </View>
                     <TaskMapViewDetails selected={this.state.selected}/>

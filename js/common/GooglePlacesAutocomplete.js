@@ -3,11 +3,10 @@
 import React, { PropTypes } from 'react';
 import { TextInput, View, ListView, ScrollView, Image, Text, Dimensions, TouchableHighlight, TouchableWithoutFeedback, Platform, ActivityIndicator, PixelRatio, TouchableOpacity } from 'react-native';
 import Qs from 'qs';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 var PidgeyColors = require('PidgeyColors');
 var MapView = require('react-native-maps');
-
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const WINDOW = Dimensions.get('window');
 

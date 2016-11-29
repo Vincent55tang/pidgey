@@ -1,38 +1,22 @@
 'use strict';
 
-var Navigator = require('Navigator');
-var React = require('React');
-var ScrollView = require('ScrollView');
-var ListView = require('ListView');
-var PidgeyListCell = require('./PidgeyListCell')
-var ListContainer = require('ListContainer');
-var PidgeyButton = require('PidgeyButton');
-var Dimensions = require('Dimensions');
-var PidgeyNumber = require('PidgeyNumber');
-var PidgeyColors = require('PidgeyColors');
-var Modal = require('Modal');
-var TouchableHighlight = require('TouchableHighlight');
-var TouchableOpacity = require('TouchableOpacity');
-var TextInput = require('TextInput');
-var TaskMapView = require('./TaskMapView');
-var { connect } = require('react-redux');
-var ListDeleteModal = require('./ListDeleteModal');
-
-
-import { createList, selectList } from '../../actions';
-import { switchTab } from '../../actions';
-
-
-var { getUserListReference } = require('../../firebase/lists');
-
-import { View, Text, StyleSheet } from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { View, Text, Navigator, StyleSheet, Dimensions, TouchableHighlight, TouchableOpacity, TextInput, ListView, ScrollView } from 'react-native';
+import { createList, selectList, switchTab } from '../../actions';
+import Icon from 'react-native-vector-icons/Ionicons';
 import type { TaskList } from '../../reducers/tasks';
 
+var ListContainer = require('ListContainer');
+var Modal = require('Modal');
+var PidgeyListCell = require('./PidgeyListCell')
+var PidgeyButton = require('PidgeyButton');
+var PidgeyColors = require('PidgeyColors');
+var PidgeyNumber = require('PidgeyNumber');
+var TaskMapView = require('./TaskMapView');
 
-import Icon from 'react-native-vector-icons/Ionicons';
-
-const NEW_LIST_TITLE_PLACEHOLDER = "What do you need to organize?";
-const NEW_LIST_BUTTON_PLACEHOLDER = "Create List!";
+var { connect } = require('react-redux');
+var ListDeleteModal = require('./ListDeleteModal');
+var { getUserListReference } = require('../../firebase/lists');
 
 class MyListsView extends React.Component {
     props: Props;
@@ -87,7 +71,6 @@ class MyListsView extends React.Component {
             this.setState({showCreateListError: true});
             return;
         }
-        console.log("INFO: CREATE LIST");
         this.props.dispatch(createList(this.props.userID, listName));
         this.setModalVisible(false);
     }
@@ -102,7 +85,6 @@ class MyListsView extends React.Component {
             <PidgeyListCell
                 title={item.title}
                 listID={item.listID}
-                key={item.listID}
                 onPress={()=>this.selectList(item.listID, item.title)}
             />
         );
@@ -190,7 +172,9 @@ class MyListsView extends React.Component {
     }
 }
 
-const width = Dimensions.get("window").width;
+const NEW_LIST_TITLE_PLACEHOLDER = "What do you need to organize?";
+const NEW_LIST_BUTTON_PLACEHOLDER = "Create List!";
+
 const HEIGHT = Dimensions.get("window").height;
 
 var styles = StyleSheet.create({

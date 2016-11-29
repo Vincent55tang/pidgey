@@ -1,12 +1,10 @@
 'use strict';
+
 import type { Task } from '../reducers/tasks';
 
-import {
-    Action
-} from './types'
+import { Action } from './types'
 
 function openTaskModal(task, newTask: boolean): ThunkAction {
-    console.log("ACTIONS: openTaskModal");
     return (dispatch) => {
         if(newTask) {
             return dispatch({
@@ -27,7 +25,6 @@ function openTaskModal(task, newTask: boolean): ThunkAction {
 }
 
 function closeTaskModal(): ThunkAction {
-    console.log("ACTIONS: closeTaskModal");
     return (dispatch) => {
         return dispatch({
             type: 'CLOSE_TASK_MODAL',
@@ -38,7 +35,6 @@ function closeTaskModal(): ThunkAction {
 }
 
 function openDeleteListModal(listID): ThunkAction {
-    console.log("ACTIONS: deleteListModal");
     return (dispatch) => {
         return dispatch({
             type: 'OPEN_DELETE_LIST_MODAL',
@@ -49,7 +45,6 @@ function openDeleteListModal(listID): ThunkAction {
 }
 
 function closeDeleteListModal(): ThunkAction {
-    console.log("ACTIONS: deleteListModal");
     return (dispatch) => {
         return dispatch({
             type: 'CLOSE_DELETE_LIST_MODAL',

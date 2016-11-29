@@ -1,13 +1,14 @@
+'use strict';
+
+import React, { Component, PropTypes } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 var PidgeyColors = require('PidgeyColors');
 var PidgeyNumber = require('PidgeyNumber');
-var React = require('React');
-var View = require('View');
-var { Text } = require('PidgeyText');
 var PidgeyTouchable = require('PidgeyTouchable');
-var Image = require('Image');
-var StyleSheet = require('StyleSheet');
+var { Text } = require('PidgeyText');
 
-import Icon from 'react-native-vector-icons/Ionicons';
 
 class MenuItem extends React.Component {
     props: {

@@ -4,12 +4,11 @@
  * @providesModule PidgeyNavigator
  */
 
-var React = require('React');
-var Platform = require('Platform');
-var BackAndroid = require('BackAndroid');
+import React, { Component, PropTypes } from 'react';
+import { Navigator, StyleSheet, Platform, BackAndroid } from 'react-native';
+
 var PidgeyTabsView = require('PidgeyTabsView');
-var Navigator = require('Navigator');
-var StyleSheet = require('StyleSheet');
+
 var { connect } = require('react-redux');
 var { switchTab } = require('./actions');
 

@@ -1,15 +1,11 @@
 'use strict';
 
+import React, { Component, PropTypes } from 'react';
+import { Animated, View, Text, Navigator, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 var PidgeyColors = require('PidgeyColors');
 var PidgeyNumber = require('PidgeyNumber');
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var View = require('View');
-var Animated = require('Animated');
-var Text = require('Text');
-var TouchableOpacity = require('TouchableOpacity');
-
-import Icon from 'react-native-vector-icons/Ionicons';
 
 class TaskNavigationBar extends React.Component {
     props: {

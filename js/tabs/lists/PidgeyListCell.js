@@ -1,21 +1,15 @@
 'use strict';
 
-var PidgeyColors = require('PidgeyColors');
-var Image = require('Image');
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var { Text } = require('PidgeyText');
-var TouchableOpacity = require('TouchableOpacity');
-var View = require('View');
-var Alert = require('Alert');
-var Dimensions = require('Dimensions');
-var PidgeyNumber = require('PidgeyNumber');
+import React, { Component, PropTypes } from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image, Alert} from 'react-native';
+import { openDeleteListModal } from '../../actions';
 import Icon from 'react-native-vector-icons/Ionicons';
+import type { Task } from '../../reducers/tasks';
+
+var PidgeyColors = require('PidgeyColors');
+var PidgeyNumber = require('PidgeyNumber');
 
 var { connect } = require('react-redux');
-
-import type { Task } from '../../reducers/tasks';
-import { openDeleteListModal } from '../../actions';
 
 type Props = {
     style: any;

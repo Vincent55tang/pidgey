@@ -4,22 +4,19 @@
  * @providesModule PidgeyListView
  */
 
-var React = require('React');
-var ListContainer = require('ListContainer');
-var Navigator = require('Navigator');
-var PidgeyDrawerLayout = require('PidgeyDrawerLayout');
-var { connect } = require('react-redux');
-var { toggleTasks } = require('../../actions');
-
-var TaskView = require('./TaskView');
-var MyListsView = require('./MyListsView');
-var TaskMapView = require('./TaskMapView');
-
-var { createSelector } = require('reselect');
-
+import React, { Component, PropTypes } from 'react';
+import { View, Text, Navigator, StyleSheet } from 'react-native';
 import type { TaskList } from '../../reducers/tasks';
 
-import { View, Text, StyleSheet } from 'react-native';
+var ListContainer = require('ListContainer');
+var MyListsView = require('./MyListsView');
+var PidgeyDrawerLayout = require('PidgeyDrawerLayout');
+var TaskMapView = require('./TaskMapView');
+var TaskView = require('./TaskView');
+
+var { connect } = require('react-redux');
+var { toggleTasks } = require('../../actions');
+var { createSelector } = require('reselect');
 
 type Props = {
     navigator: Navigator;

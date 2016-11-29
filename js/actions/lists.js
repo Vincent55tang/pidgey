@@ -2,12 +2,9 @@
 
 var listsDB = require('../firebase/lists');
 
-import {
-    Action
-} from './types'
+import { Action } from './types'
 
 function createList(userID, title): ThunkAction {
-    console.log("ACTIONS: createList");
     return (dispatch) => {
         var listID = listsDB.createList(userID, title);
         return dispatch({
@@ -46,7 +43,6 @@ function showListMap(listID, title, taskList): ThunkAction {
 }
 
 function deleteList(userID, listID): ThunkAction {
-    console.log("ACTIONS: deleteList");
     return (dispatch) => {
         var deleteList = listsDB.deleteList(userID, listID);
         return dispatch({

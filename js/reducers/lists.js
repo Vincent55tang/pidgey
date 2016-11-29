@@ -1,6 +1,6 @@
 'use strict';
 
-import type {Action} from '../actions/types';
+import type { Action } from '../actions/types';
 
 export type State = {
     currentList: {
@@ -20,7 +20,6 @@ const initialState = {
 
 function list(state: State = initialState, action: Action): State {
     if(action.type === 'CREATE_LIST') {
-        console.log("_reducer", action);
         return {
             currentList: {
                 listID: action.list.id,

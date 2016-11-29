@@ -1,6 +1,6 @@
 'use strict';
 
-import type {Action} from '../actions/types';
+import type { Action } from '../actions/types';
 
 export type List = {
     key: string;

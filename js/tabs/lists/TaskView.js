@@ -1,21 +1,19 @@
-var Navigator = require('Navigator');
-var React = require('React');
-var ListView = require('ListView');
-var PidgeyTaskCell = require('./PidgeyTaskCell');
-var PidgeyButton = require('PidgeyButton');
-var PidgeyTaskModal = require('./PidgeyTaskModal');
+'use strict';
+
+import React, { Component, PropTypes } from 'react';
+import { View, Text, Navigator, StyleSheet, ListView } from 'react-native';
+import { openTaskModal, showListMap, switchTab } from '../../actions';
+import type { TaskList } from '../../reducers/tasks';
+
 var LoadingSpinner = require('LoadingSpinner');
+var PidgeyButton = require('PidgeyButton');
+var PidgeyTaskCell = require('./PidgeyTaskCell');
+var PidgeyTaskModal = require('./PidgeyTaskModal');
 var TaskNavigationBar = require('./TaskNavigationBar');
 
 var { connect } = require('react-redux');
 
 var { getUserTasksReference } = require('../../firebase/tasks');
-
-import { View, Text, StyleSheet, NativeModules } from 'react-native';
-import { openTaskModal, showListMap, switchTab } from '../../actions';
-import type { TaskList } from '../../reducers/tasks';
-
-// var TSP = NativeModules.TSP;
 
 type Props = {
     taskView: string;
@@ -123,7 +121,7 @@ class TaskView extends React.Component {
     }
 }
 
-styles = StyleSheet.create({
+var styles = StyleSheet.create({
     container: {
         flex: 1,
     },

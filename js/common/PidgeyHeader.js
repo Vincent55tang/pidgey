@@ -1,8 +1,8 @@
+'use strict';
+
 /**
  * @providesModule PidgeyHeader
  */
-
-'use strict';
 
 var PidgeyColors = require('PidgeyColors');
 var React = require('React');

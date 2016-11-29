@@ -1,12 +1,10 @@
 'use strict';
+
 var tasksDB = require('../firebase/tasks');
 
-import {
-    Action
-} from './types'
+import { Action } from './types'
 
 function addTask(userID, listID, task): ThunkAction {
-    console.log("ACTIONS: addTask", task);
     return (dispatch) => {
         var taskID = tasksDB.addTask(userID, listID, task);
 
@@ -17,7 +15,6 @@ function addTask(userID, listID, task): ThunkAction {
 }
 
 function updateTask(userID, listID, taskID, task): ThunkAction {
-    console.log("ACTIONS: updateTask");
     return (dispatch) => {
         tasksDB.updateTask(userID, listID, taskID, task);
 
@@ -28,7 +25,6 @@ function updateTask(userID, listID, taskID, task): ThunkAction {
 }
 
 function deleteTask(userID, listID, taskID): ThunkAction {
-    console.log("ACTIONS: deleteTask");
     return (dispatch) => {
         tasksDB.deleteTask(userID, listID, taskID);
 
@@ -39,7 +35,6 @@ function deleteTask(userID, listID, taskID): ThunkAction {
 }
 
 function checkTask(userID, listID, taskID, task): ThunkAction {
-    console.log("ACTIONS: checkTask");
     return (dispatch) => {
         tasksDB.checkTask(userID, listID, taskID, task);
 

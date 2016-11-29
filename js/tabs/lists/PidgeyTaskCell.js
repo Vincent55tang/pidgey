@@ -1,22 +1,17 @@
 'use strict';
 
-var PidgeyColors = require('PidgeyColors');
-var PidgeyNumber = require('PidgeyNumber');
-var Image = require('Image');
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var { Text } = require('PidgeyText');
-var TouchableOpacity = require('TouchableOpacity');
-var View = require('View');
-var Alert = require('Alert');
-var PidgeyCheckbox = require('PidgeyCheckbox');
-import Icon from 'react-native-vector-icons/Ionicons';
-
-var { connect } = require('react-redux');
-
+import React, { Component, PropTypes } from 'react';
+import { View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import type { Task } from '../../reducers/tasks';
 import { openTaskModal, checkTask, deleteTask } from '../../actions';
+import Icon from 'react-native-vector-icons/Ionicons';
 
+var PidgeyCheckbox = require('PidgeyCheckbox');
+var PidgeyColors = require('PidgeyColors');
+var PidgeyNumber = require('PidgeyNumber');
+var { Text } = require('PidgeyText');
+
+var { connect } = require('react-redux');
 
 type Props = {
     title: string,

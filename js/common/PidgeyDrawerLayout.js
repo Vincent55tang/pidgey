@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * @providesModule PidgeyDrawerLayout
  */

@@ -1,11 +1,10 @@
-var Navigator = require('Navigator');
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var Dimensions = require('Dimensions');
+'use strict';
+
+import React, { Component, PropTypes } from 'react';
+import { View, Text, Navigator, StyleSheet, Dimensions } from 'react-native';
+
 var PidgeyNumber = require('PidgeyNumber');
 
-var View = require('View');
-var Text = require('Text');
 var { connect } = require('react-redux');
 
 class TaskMapViewDetails extends React.Component {

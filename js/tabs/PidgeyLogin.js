@@ -4,18 +4,12 @@
  * @providesModule PidgeyLogin
  */
 
-var Animated = require('Animated');
-var PidgeyColors = require('PidgeyColors');
-var Image = require('Image');
-var React = require('React');
-var StatusBar = require('StatusBar');
-var StyleSheet = require('StyleSheet');
-var View = require('View');
-var Text = require('Text');
-var TouchableOpacity = require('TouchableOpacity');
+import React, { Component, PropTypes } from 'react';
+import { Animated, View, Text, StyleSheet, Dimensions, TouchableOpacity, Image, StatusBar } from 'react-native';
+
 var LoginButton = require('../common/LoginButton');
 var LogoutButton = require('../common/LogoutButton');
-var Dimensions = require('Dimensions');
+var PidgeyColors = require('PidgeyColors');
 
 var { connect } = require('react-redux');
 

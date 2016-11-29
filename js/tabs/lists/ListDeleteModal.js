@@ -1,29 +1,19 @@
 'use strict';
 
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var View = require('View');
-var TouchableOpacity = require('TouchableOpacity');
-var TouchableHighlight = require('TouchableHighlight');
+import React, { Component, PropTypes } from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableHighlight, TouchableOpacity, TextInput } from 'react-native';
+import { GooglePlacesAutocomplete } from '../../common/GooglePlacesAutocomplete';
+import { closeDeleteListModal, deleteList } from '../../actions';
+import Icon from 'react-native-vector-icons/Ionicons';
+import type { Task } from '../../reducers/tasks';
+
+var PidgeyButton = require('PidgeyButton');
+var PidgeyColors = require('PidgeyColors');
 var PidgeyNumber = require('PidgeyNumber');
 var Modal = require('Modal');
-var Text = require('Text');
-var TextInput = require('TextInput');
-var PidgeyColors = require('PidgeyColors');
-var PidgeyButton = require('PidgeyButton');
-var Dimensions = require('Dimensions');
-import { GooglePlacesAutocomplete } from '../../common/GooglePlacesAutocomplete';
 
 var { connect } = require('react-redux');
-
 var googleConfig = require('../../config/google');
-
-import Icon from 'react-native-vector-icons/Ionicons';
-
-import type { Task } from '../../reducers/tasks';
-import { closeDeleteListModal, deleteList } from '../../actions';
-
-const DELETE_LIST_TEXT = "Are you sure you want to remove this list?"
 
 class PidgeyTaskModal extends React.Component {
     props: {
@@ -99,6 +89,7 @@ class PidgeyTaskModal extends React.Component {
     }
 }
 
+const DELETE_LIST_TEXT = "Are you sure you want to remove this list?"
 const height = Dimensions.get('window').height * 0.9;
 
 var styles = StyleSheet.create({

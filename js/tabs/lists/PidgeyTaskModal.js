@@ -1,31 +1,18 @@
 'use strict';
 
-var React = require('React');
-var StyleSheet = require('StyleSheet');
-var View = require('View');
-var TouchableOpacity = require('TouchableOpacity');
-var TouchableHighlight = require('TouchableHighlight');
-var Modal = require('Modal');
-var Text = require('Text');
-var TextInput = require('TextInput');
-var PidgeyColors = require('PidgeyColors');
-var PidgeyButton = require('PidgeyButton');
-var Dimensions = require('Dimensions');
+import React, { Component, PropTypes } from 'react';
+import { View, Text, Navigator, StyleSheet, Dimensions, TouchableHighlight, TouchableOpacity , TextInput } from 'react-native';
 import { GooglePlacesAutocomplete } from '../../common/GooglePlacesAutocomplete';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { closeTaskModal, addTask, updateTask } from '../../actions';
+import type { Task } from '../../reducers/tasks';
+
+var Modal = require('Modal');
+var PidgeyButton = require('PidgeyButton');
+var PidgeyColors = require('PidgeyColors');
 
 var { connect } = require('react-redux');
-
 var googleConfig = require('../../config/google');
-
-import Icon from 'react-native-vector-icons/Ionicons';
-
-import type { Task } from '../../reducers/tasks';
-import { closeTaskModal, addTask, updateTask } from '../../actions';
-
-const NEW_TASK_TITLE_PLACEHOLDER = "What do you need to do?";
-const NEW_TASK_LOCATION_PLACEHOLDER = "Where can this be done?";
-const ADD_TASK_BUTTON_TEXT = "Add Task!";
-const UPDATE_TASK_BUTTON_TEXT = "Update Task!";
 
 class PidgeyTaskModal extends React.Component {
     props: {
@@ -207,14 +194,19 @@ class PidgeyTaskModal extends React.Component {
     }
 }
 
-const height = Dimensions.get('window').height * 0.9;
+const NEW_TASK_TITLE_PLACEHOLDER = "What do you need to do?";
+const NEW_TASK_LOCATION_PLACEHOLDER = "Where can this be done?";
+const ADD_TASK_BUTTON_TEXT = "Add Task!";
+const UPDATE_TASK_BUTTON_TEXT = "Update Task!";
+
+const HEIGHT = Dimensions.get('window').HEIGHT * 0.9;
 
 var styles = StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: PidgeyColors.modalDark,
         padding: 25,
-        minHeight: height,
+        minHeight: HEIGHT,
     },
     edit: {
         backgroundColor: '#fff',

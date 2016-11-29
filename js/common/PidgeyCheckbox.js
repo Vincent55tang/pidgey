@@ -1,7 +1,8 @@
+'use strict';
+
 /**
  * @providesModule PidgeyCheckbox
  */
-'use strict';
 
 var PidgeyColors = require('PidgeyColors');
 var PidgeyNumber = require('PidgeyNumber');

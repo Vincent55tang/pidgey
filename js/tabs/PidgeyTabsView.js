@@ -7,31 +7,24 @@
 
 // Include all Alternative App Pages
 
-var PidgeyInfoView = require('PidgeyInfoView');
-var PidgeyListView = require('PidgeyListView');
-var PidgeyColors = require('PidgeyColors');
-var MyListsView = require('./lists/MyListsView');
-var TaskMapView = require('./lists/TaskMapView')
-var React = require('React');
-var Navigator = require('Navigator');
-var PidgeyDrawerLayout = require('PidgeyDrawerLayout');
-var View = require('View');
-var StyleSheet = require('StyleSheet');
-var TouchableOpacity = require('TouchableOpacity');
-var Image = require('Image');
-var { Text } = require('PidgeyText');
-var MenuItem = require('./MenuItem');
-
-
+import React, { Component, PropTypes } from 'react';
+import { View, Navigator, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import type { Tab } from '../reducers/navigation';
 
 var LogoutButton = require('../common/LogoutButton');
+var MenuItem = require('./MenuItem');
+var MyListsView = require('./lists/MyListsView');
+var PidgeyColors = require('PidgeyColors');
+var PidgeyDrawerLayout = require('PidgeyDrawerLayout');
+var PidgeyInfoView = require('PidgeyInfoView');
+var PidgeyListView = require('PidgeyListView');
 var ProfilePicture = require('../common/ProfilePicture');
+var TaskMapView = require('./lists/TaskMapView')
+var { Text } = require('PidgeyText');
 
 var { switchTab } = require('../actions');
 var { connect } = require('react-redux');
-
-import type { Tab } from '../reducers/navigation';
 
 class PidgeyTabsView extends React.Component {
     props: {

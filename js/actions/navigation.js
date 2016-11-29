@@ -1,6 +1,7 @@
 'use strict';
 
 import type { Action } from './types';
+
 type Tab = 'tasks' | 'info' | 'myLists' | 'map';
 
 module.exports = {

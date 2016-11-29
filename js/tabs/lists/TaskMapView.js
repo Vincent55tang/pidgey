@@ -1,23 +1,21 @@
-var Navigator = require('Navigator');
-var React = require('React');
-var MapView = require('react-native-maps');
+'use strict';
+
+import React, { Component, PropTypes } from 'react';
+import { View, Text, Navigator, StyleSheet, Dimensions } from 'react-native';
+import Qs from 'qs';
+import type { TaskList } from '../../reducers/tasks';
+
 var ListContainer = require('ListContainer');
-var StyleSheet = require('StyleSheet');
-var Dimensions = require('Dimensions');
+var MapView = require('react-native-maps');
+var PidgeyColors = require('PidgeyColors');
 var TaskMapViewDetails = require('./TaskMapViewDetails');
 var TaskNavigationBar = require('./TaskNavigationBar');
-var PidgeyColors = require('PidgeyColors');
 
 var googleConfig = require('../../config/google');
 
-var View = require('View');
-var Text = require('Text');
 var { connect } = require('react-redux');
 var { getUserTasksReference } = require('../../firebase/tasks');
 var { switchTab } = require('../../actions');
-
-import type { TaskList } from '../../reducers/tasks';
-import Qs from 'qs';
 
 type Props = {
     taskView: string;
@@ -37,7 +35,6 @@ class TaskMapView extends React.Component {
     constructor(props: Props) {
         super(props);
         this.state = props;
-        this.markers = [];
     }
 
     componentWillMount() {
@@ -50,6 +47,12 @@ class TaskMapView extends React.Component {
 
     componentDidMount() {
         this.fetchPolyline();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (!(this.state.polylineCoordinates === nextState.polylineCoordinates )) { return true; }
+        if (!(this.state.selected === nextState.selected)) { return true; }
+        return false;
     }
 
     initialMapSetup() {
@@ -85,33 +88,33 @@ class TaskMapView extends React.Component {
     }
 
     fetchPolyline() {
+        if (!this.props.taskList || this.props.taskList.length == 0) return;
         var self = this;
-        if(!this.loading) {
-            var list = self.props.taskList;
-            var waypoints = list.slice(1,list.length).map((w) => {
-                return 'place_id:'+w.location.placeID;
-            }).join('|');
+        var list = self.props.taskList;
+        var waypoints = list.slice(1,list.length).map((w) => {
+            return 'place_id:'+w.location.placeID;
+        }).join('|');
 
-            const request = new Request('https://maps.googleapis.com/maps/api/directions/json?' +
-                Qs.stringify({
-                        origin: 'place_id:' + list[0].location.placeID,
-                        destination: 'place_id:' + list[0].location.placeID,
-                        key: googleConfig.mapsAPI,
-                        waypoints: waypoints
-                    }),
-                {
-                    method: 'GET',
-                })
+        const request = new Request('https://maps.googleapis.com/maps/api/directions/json?' +
+            Qs.stringify({
+                    origin: 'place_id:' + list[0].location.placeID,
+                    destination: 'place_id:' + list[0].location.placeID,
+                    key: googleConfig.mapsAPI,
+                    waypoints: waypoints
+                }),
+            {
+                method: 'GET',
+            })
 
-            fetch(request)
-            .then((response) => response.json())
-            .then((responseJSON) => {
-                self.setState({polylineCoordinates: this.decode(responseJSON.routes[0].overview_polyline.points, false)});
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        }
+        fetch(request)
+        .then((response) => response.json())
+        .then((responseJSON) => {
+            self.setState({polylineCoordinates: this.decode(responseJSON.routes[0].overview_polyline.points, false)});
+        })
+        .catch((error) => {
+            // TODO: Handle error responses somehow
+            console.log(error);
+        })
     }
 
     generateRoute() {
@@ -123,16 +126,16 @@ class TaskMapView extends React.Component {
         result[0].order = "" + 1;
         markers[0].visited = true;
 
-        for (i = 1; i < markers.length; ++i)
+        for (var i = 1; i < markers.length; ++i)
             markers[i].visited = false;
 
-        for (i = 1; i < markers.length; ++i) {
+        for (var i = 1; i < markers.length; ++i) {
             var minDistance;
             var minJ;
             minDistance = undefined;
             minJ = undefined;
 
-            for(j = 0; j < markers.length; ++j) {
+            for(var j = 0; j < markers.length; ++j) {
                 var dist;
                 if(!markers[j].visited) {
                     dist = this.dist(markers[j], result[i-1]);
@@ -209,7 +212,15 @@ class TaskMapView extends React.Component {
     }
 
     render() {
-        if (this.markers && this.state.polylineCoordinates) {
+        if (!this.props.taskList) {
+            <ListContainer title={this.props.title}>
+                <View style={styles.container}>
+                    <Text>
+                        Nothing to show!
+                    </Text>
+                </View>
+            </ListContainer>
+        } else if (this.state.polylineCoordinates) {
             return (
                 <ListContainer title={this.props.title}>
                     <View style={styles.container}>

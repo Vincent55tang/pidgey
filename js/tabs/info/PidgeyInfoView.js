@@ -9,6 +9,7 @@ var ListContainer = require('ListContainer');
 var MapView = require('react-native-maps');
 var TextInput = require('TextInput');
 var PidgeyButton = require('PidgeyButton');
+var Info = require('./Info');
 
 var { connect } = require('react-redux');
 
@@ -35,38 +36,13 @@ class PidgeyInfoView extends React.Component {
                 backgroundImage={require('./img/info-background.png')}
                 backgroundColor={'#47BFBF'}>
                     <View style={styles.container}>
-                        <TextInput
-                            editable={true}
-                            onChangeText={
-                                (text) => this.setState({
-                                    list: {
-                                        title: text
-                                    }
-                                })
-                            }
-                            onSubmitEditing={
-                                (text) => this.createList(text)
-                            }
-                            placeholder={"What is this list for?"}
-                        />
-                        <PidgeyButton
-                            styles={styles.button}
-                            caption={"Create!"}
-                            onPress={() => this.createList(this.state.list.title)}
-                        />
+                        <Info />
                     </View>
             </ListContainer>
         )
     }
 
-    createList(listName) {
-        if(listName === '') {
-            this.setState({showCreateListError: true});
-            return;
-        }
-        console.log("INFO: CREATE LIST");
-        this.props.dispatch(createList(this.props.user.id, listName));
-    }
+
 }
 
 var styles = StyleSheet.create({

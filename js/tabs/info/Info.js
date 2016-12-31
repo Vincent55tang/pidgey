@@ -3,6 +3,10 @@ var View = require('View');
 var PidgeyColors = require('PidgeyColors');
 var React = require('React');
 var StyleSheet = require('StyleSheet');
+var TextInput = require('TextInput');
+var TouchableHighlight = require('TouchableHighlight');
+
+var nlp = require('../../nlp/parser.js');
 
 class Info extends React.Component {
     props: Props;
@@ -13,7 +17,28 @@ class Info extends React.Component {
     render() {
         return (
             <View>
-                <Text> Info Goes Here </Text>
+                <TextInput
+                    style={styles.titleInput}
+                    onChangeText={(text) => this.setState({text:text})}
+                    value={this.state.text}
+                    placeholder="type something here"
+                    autoCapitalize='sentences'
+                    autoCorrect={true}
+                />
+                <TouchableHighlight
+                    onPress={() => {
+                        this.setState({results: nlp.parse(this.state.text)})
+                    }}
+                >
+                    <View style={styles.button}>
+                        <Text>Generate Results</Text>
+                    </View>
+                </TouchableHighlight>
+                <View>
+                    <Text>
+                        {this.state.results}
+                    </Text>
+                </View>
             </View>
         );
     }
@@ -38,8 +63,7 @@ var styles = StyleSheet.create({
     color: '#002350',
   },
   button: {
-    marginTop: 25,
-    marginHorizontal: 20,
+    backgroundColor: '#b0b0b0'
   },
 });
 

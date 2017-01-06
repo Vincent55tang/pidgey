@@ -7,7 +7,7 @@ var { Provider } = require('react-redux');
 var configureStore = require('./store/configureStore');
 
 function setup(): ReactClass<{}> {
-    // console.disableYellowBox = true;
+    console.disableYellowBox = true;
 
     class Root extends React.Component {
         state: {

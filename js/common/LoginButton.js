@@ -5,6 +5,11 @@ const PidgeyButton = require('PidgeyButton');
 const { signInWithGoogle } = require('../actions');
 var { connect } = require('react-redux');
 
+var View = require('View');
+var Text = require('Text');
+
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+
 class LoginButton extends React.Component {
     props: {
         style: any;

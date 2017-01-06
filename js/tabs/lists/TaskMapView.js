@@ -31,10 +31,12 @@ type State = {
 class TaskMapView extends React.Component {
     props: Props;
     state: State;
+    markers: any;
 
     constructor(props: Props) {
         super(props);
         this.state = props;
+        this.markers = [];
     }
 
     componentWillMount() {
@@ -61,7 +63,7 @@ class TaskMapView extends React.Component {
         var longMin;
         var longMax;
         var taskList = this.props.taskList;
-        for (i = 0; i < taskList.length; ++i) {
+        for (var i = 0; i < taskList.length; ++i) {
             var lat = taskList[i].location.lat;
             var long = taskList[i].location.long;
             if (!latMin || latMin > lat) {latMin = lat;}

@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
-import { View, Text, Navigator, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Navigator, StyleSheet, Dimensions, PixelRatio } from 'react-native';
 import Qs from 'qs';
 import type { TaskList } from '../../reducers/tasks';
 
@@ -43,7 +43,8 @@ class TaskMapView extends React.Component {
         this.setState({
             selected: undefined,
             polylineCoordinates: undefined,
-            optimalRoute: this.generateRoute()
+            optimalRoute: this.generateRoute(),
+            selectedIndex: 0
         });
     }
 
@@ -75,6 +76,7 @@ class TaskMapView extends React.Component {
                     latitude: lat,
                     longitude: long,
                 },
+                index: i+1,
                 title: taskList[i].title,
                 description: taskList[i].location.description
             };
@@ -157,6 +159,7 @@ class TaskMapView extends React.Component {
 
     showMarkerDetails(marker) {
         this.setState({selected: marker});
+        this.setState({selectedIndex: marker.index});
     }
 
     dist(marker1, marker2) {
@@ -233,8 +236,23 @@ class TaskMapView extends React.Component {
                             {this.markers.map(marker => (
                                 <MapView.Marker
                                     coordinate={marker.coordinate}
-                                    onPress={()=>this.showMarkerDetails(marker)}
-                                />
+                                    onPress={()=>this.showMarkerDetails(marker)}>
+                                    {this.state.selectedIndex == marker.index ? (
+                                        <View style={styles.selectedMarkerContainer}>
+                                            <Text style={styles.markerText}>
+                                                {marker.index}
+                                            </Text>
+                                        </View>
+                                    ) : (
+                                        <View style={styles.markerContainer}>
+                                            <Text style={styles.markerText}>
+                                                {marker.index}
+                                            </Text>
+                                        </View>
+                                    )}
+
+                                
+                                </MapView.Marker>
                             ))}
 
                             <MapView.Polyline
@@ -244,7 +262,7 @@ class TaskMapView extends React.Component {
                                         longitude: p[1]
                                     }
                                 ))}
-                                strokeWidth={5}
+                                strokeWidth={4}
                                 strokeColor={PidgeyColors.gradientDark}
                             />
                         </MapView>
@@ -291,6 +309,25 @@ var styles = StyleSheet.create({
         flex: 1,
         height: SCREEN_HEIGHT / 2,
         width: SCREEN_WIDTH,
+    },
+    markerContainer: {
+        height: 25,
+        width: 25,
+        borderRadius: 25 / PixelRatio.get(),
+        backgroundColor: PidgeyColors.yellow,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    selectedMarkerContainer: {
+        height: 25,
+        width: 25,
+        borderRadius: 25 / PixelRatio.get(),
+        backgroundColor: PidgeyColors.gradientLight,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    markerText: {
+        color: '#fff'
     }
 })
 

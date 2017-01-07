@@ -14,7 +14,7 @@
     "react-native-google-places-autocomplete": "^1.2.6",
     "react-native-google-signin": "^0.8.1",
     "react-native-linear-gradient": "^1.5.13",
-    "react-native-maps": "^0.11.0",
+    "react-native-maps": "^0.12.2",
     "react-native-navbar": "^1.5.4",
     "react-native-vector-icons": "^3.0.0",
     "react-redux": "^4.4.5",

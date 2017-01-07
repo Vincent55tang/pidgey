@@ -241,7 +241,7 @@ var styles = StyleSheet.create({
         color: '#fff',
     },
     createListButtonModal: {
-        backgroundColor: PidgeyColors.listDone,
+        backgroundColor: PidgeyColors.gradientLight,
         flex: 1,
         height: 50,
         justifyContent: 'center',

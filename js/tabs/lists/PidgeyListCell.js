@@ -33,10 +33,6 @@ class PidgeyListCell extends React.Component {
         };
     }
 
-    getCellColor() {
-        return PidgeyColors.listProgress;
-    }
-
     openDeleteModal(key) {
         console.log("_PIDGEYLISTCELL DELETE", key)
         this.props.dispatch(

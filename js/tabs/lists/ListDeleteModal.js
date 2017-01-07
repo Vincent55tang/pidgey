@@ -127,7 +127,7 @@ var styles = StyleSheet.create({
     confirmDeleteContainer: {
         flex: 0.8,
         padding: PidgeyNumber.defaultPadding,
-        backgroundColor: PidgeyColors.listDone,
+        backgroundColor: PidgeyColors.gradientLight,
         alignItems: 'center',
     },
     closeDeleteContainer: {

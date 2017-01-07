@@ -23,11 +23,6 @@ type Props = {
     navigator: Navigator;
 };
 
-// USE THIS FOR FILTERS!
-type State = {
-    taskList: TaskList;
-};
-
 class TaskMapView extends React.Component {
     props: Props;
     state: State;
@@ -53,8 +48,8 @@ class TaskMapView extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (!(this.state.polylineCoordinates === nextState.polylineCoordinates )) { return true; }
         if (!(this.state.selected === nextState.selected)) { return true; }
+        if (!(this.state.polylineCoordinates === nextState.polylineCoordinates )) { return true; }
         return false;
     }
 
@@ -149,8 +144,9 @@ class TaskMapView extends React.Component {
     }
 
     showMarkerDetails(marker) {
-        this.setState({selected: marker});
-        this.setState({selectedIndex: marker.index});
+        this.setState({
+            selected: marker,
+        });
     }
 
     dist(marker1, marker2) {
@@ -207,6 +203,18 @@ class TaskMapView extends React.Component {
         return coordinates;
     }
 
+    isSelected(index) {
+        if(this.state.selected) {
+            if(!this.state.selected.index) {
+                return false
+            }
+            if(this.state.selected.index == index) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     render() {
         if (!this.props.taskList) {
             <ListContainer title={this.props.title}>
@@ -228,7 +236,8 @@ class TaskMapView extends React.Component {
                                 <MapView.Marker
                                     coordinate={{latitude: marker.location.lat, longitude: marker.location.long}}
                                     onPress={()=>this.showMarkerDetails(marker)}>
-                                    {this.state.selectedIndex == marker.index ? (
+                                    
+                                    {this.isSelected(marker.index) ? (
                                         <View style={styles.selectedMarkerContainer}>
                                             <Text style={styles.markerText}>
                                                 {marker.index}
@@ -237,7 +246,7 @@ class TaskMapView extends React.Component {
                                     ) : (
                                         <View style={styles.markerContainer}>
                                             <Text style={styles.markerText}>
-                                                {marker.index}
+                                                {" " + marker.index + " "} 
                                             </Text>
                                         </View>
                                     )}
@@ -298,7 +307,7 @@ var styles = StyleSheet.create({
     },
     map: {
         flex: 1,
-        height: SCREEN_HEIGHT / 2,
+        height: 2 * SCREEN_HEIGHT / 3 - 80,
         width: SCREEN_WIDTH,
     },
     markerContainer: {
@@ -306,6 +315,8 @@ var styles = StyleSheet.create({
         width: 25,
         borderRadius: 25 / PixelRatio.get(),
         backgroundColor: PidgeyColors.yellow,
+        borderColor: '#fff',
+        borderWidth: 1 / PixelRatio.get(),
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -314,6 +325,8 @@ var styles = StyleSheet.create({
         width: 25,
         borderRadius: 25 / PixelRatio.get(),
         backgroundColor: PidgeyColors.gradientLight,
+        borderColor: '#fff',
+        borderWidth: 1 / PixelRatio.get(),
         alignItems: 'center',
         justifyContent: 'center'
     },

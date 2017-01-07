@@ -4,6 +4,8 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, Navigator, StyleSheet, Dimensions } from 'react-native';
 
 var PidgeyNumber = require('PidgeyNumber');
+var PidgeyColors = require('PidgeyColors');
+var PixelRatio = require('PixelRatio');
 
 var { connect } = require('react-redux');
 
@@ -19,8 +21,17 @@ class TaskMapViewDetails extends React.Component {
         if (this.props.selected) {
             return (
                 <View style={styles.container}>
-                    <Text style={styles.taskTitle}>{this.props.selected.title}</Text>
-                    <Text style={styles.taskDescription}>{this.props.selected.description}</Text>
+                    <View style={styles.titleContainer}>
+                        <View style={styles.number}>
+                            <Text style={styles.numberText}>{this.props.selected.index}</Text>
+                        </View>
+                        <View style={styles.textTitleContainer}>
+                            <Text style={styles.taskTitle}>
+                                {this.props.selected.title}
+                            </Text>
+                        </View>                        
+                    <Text style={styles.taskDescription}>{this.props.selected.location.description}</Text>
+                    </View>
                 </View>
             );
         } else {
@@ -40,7 +51,7 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        height: SCREEN_HEIGHT / 3 - 45,
+        height: SCREEN_HEIGHT / 3 - 60,
         width: SCREEN_WIDTH,
         padding: PidgeyNumber.defaultPadding,
     },
@@ -51,8 +62,29 @@ var styles = StyleSheet.create({
     taskTitle: {
         fontSize: 24,
     },
+    number: {
+        height: 30,
+        width: 30,
+        borderRadius: 40 / PixelRatio.get(),
+        backgroundColor: PidgeyColors.gradientLight,
+        borderColor: '#fff',
+        borderWidth: 1 / PixelRatio.get(),
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        marginRight: 7,
+    }, 
+    numberText: {
+        color: '#fff',
+    },
+    titleContainer: {
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
     taskDescription: {
-
+        marginLeft: 37,
     }
 })
 

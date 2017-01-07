@@ -43,9 +43,9 @@ class TaskMapView extends React.Component {
         this.setState({
             selected: undefined,
             polylineCoordinates: undefined,
-            optimalRoute: this.generateRoute(),
             selectedIndex: 0
         });
+        this.markers = this.generateRoute();
     }
 
     componentDidMount() {
@@ -71,15 +71,6 @@ class TaskMapView extends React.Component {
             if (!latMax || latMax < lat) {latMax = lat;}
             if (!longMin || longMin > long) {longMin = long;}
             if (!longMax || longMax < long) {longMax = long;}
-            this.markers[i] = {
-                coordinate: {
-                    latitude: lat,
-                    longitude: long,
-                },
-                index: i+1,
-                title: taskList[i].title,
-                description: taskList[i].location.description
-            };
         }
         return (
             {
@@ -92,9 +83,9 @@ class TaskMapView extends React.Component {
     }
 
     fetchPolyline() {
-        if (!this.props.taskList || this.props.taskList.length == 0) return;
+        if (!this.markers || this.markers.length == 0) return;
         var self = this;
-        var list = self.props.taskList;
+        var list = this.markers;
         var waypoints = list.slice(1,list.length).map((w) => {
             return 'place_id:'+w.location.placeID;
         }).join('|');
@@ -127,7 +118,7 @@ class TaskMapView extends React.Component {
 
         var markers = this.props.taskList;
         result[0] = markers[0];
-        result[0].order = "" + 1;
+        result[0].index = "" + 1;
         markers[0].visited = true;
 
         for (var i = 1; i < markers.length; ++i)
@@ -151,7 +142,7 @@ class TaskMapView extends React.Component {
             }
             // j contains index of closest marker
             result[i] = markers[minJ];
-            result[i].order = "" + (i+1);
+            result[i].index = "" + (i+1);
             markers[minJ].visited = true;
         }
         return result;
@@ -235,7 +226,7 @@ class TaskMapView extends React.Component {
                         >
                             {this.markers.map(marker => (
                                 <MapView.Marker
-                                    coordinate={marker.coordinate}
+                                    coordinate={{latitude: marker.location.lat, longitude: marker.location.long}}
                                     onPress={()=>this.showMarkerDetails(marker)}>
                                     {this.state.selectedIndex == marker.index ? (
                                         <View style={styles.selectedMarkerContainer}>
@@ -251,7 +242,7 @@ class TaskMapView extends React.Component {
                                         </View>
                                     )}
 
-                                
+
                                 </MapView.Marker>
                             ))}
 

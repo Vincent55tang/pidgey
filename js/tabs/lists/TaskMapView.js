@@ -209,13 +209,13 @@ class TaskMapView extends React.Component {
 
     render() {
         if (!this.props.taskList) {
-            <ListContainer title={this.props.title}>
+            return(<ListContainer title={this.props.title}>
                 <View style={styles.container}>
                     <Text>
                         Nothing to show!
                     </Text>
                 </View>
-            </ListContainer>
+            </ListContainer>);
         } else if (this.state.polylineCoordinates) {
             return (
                 <ListContainer title={this.props.title}>
@@ -307,7 +307,9 @@ var styles = StyleSheet.create({
         borderRadius: 25 / PixelRatio.get(),
         backgroundColor: PidgeyColors.yellow,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderColor: '#fff',
+        borderWidth: 1/PixelRatio.get()
     },
     selectedMarkerContainer: {
         height: 25,

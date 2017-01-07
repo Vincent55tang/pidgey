@@ -1,5 +1,6 @@
 var { Text } = require('PidgeyText');
 var View = require('View');
+var ListView = require('ListView');
 var PidgeyColors = require('PidgeyColors');
 var React = require('React');
 var StyleSheet = require('StyleSheet');
@@ -14,6 +15,17 @@ class Info extends React.Component {
 
     };
 
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
+            }),
+            loadingNLP: false
+        }
+    }
+
     render() {
         return (
             <View>
@@ -27,18 +39,24 @@ class Info extends React.Component {
                 />
                 <TouchableHighlight
                     onPress={() => {
-                        this.setState({results: nlp.parse(this.state.text)})
+                        this.setState({loadingNLP: true});
+
+                        nlp.parse(this.state.text).then((result) => {
+                            this.setState({
+                                dataSource: this.state.dataSource.cloneWithRows(result),
+                                loadingNLP: false
+                            });
+                        })
                     }}
                 >
                     <View style={styles.button}>
-                        <Text>Generate Results</Text>
+                        <Text>Hello {this.state.loadingNLP ? "Loading" : "NotLoading"}</Text>
                     </View>
                 </TouchableHighlight>
-                <View>
-                    <Text>
-                        {this.state.results}
-                    </Text>
-                </View>
+                <ListView 
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData) => <Text>{rowData.name}</Text>}
+                />
             </View>
         );
     }

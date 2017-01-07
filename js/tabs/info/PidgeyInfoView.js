@@ -25,6 +25,10 @@ class PidgeyInfoView extends React.Component {
             showCreateListError: false,
             list: {
                 title: '',
+            },
+            results: {
+                latitude: '',
+                longitude: '',
             }
         }
     }

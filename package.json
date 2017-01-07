@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "babel-preset-react-native-stage-0": "^1.0.1",
     "firebase": "^3.5.2",
     "react": "15.3.2",
     "react-native": "0.36.0",
@@ -31,7 +32,8 @@
   "devDependencies": {
     "babel-jest": "16.0.0",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
-    "babel-preset-react-native": "1.9.0",
+    "babel-preset-react-native": "^1.9.1",
+    "babel-preset-stage-3": "^6.17.0",
     "jest": "16.0.1",
     "jest-react-native": "16.0.0",
     "react-test-renderer": "15.3.2"
